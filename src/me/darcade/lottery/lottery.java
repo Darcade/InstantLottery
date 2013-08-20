@@ -1,8 +1,15 @@
 package me.darcade.lottery;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
+import lib.PatPeter.SQLibrary.SQLite;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,18 +20,41 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class lottery extends JavaPlugin {
 
+	static final Logger log = Bukkit.getLogger();
+
+	private SQLite sqlite;
+
+	String rowcount;
+
 	@Override
 	public void onDisable() {
+		sqlite.close();
 		System.out.println("Lottery plugin disabled!");
+
 	}
 
 	@Override
 	public void onEnable() {
-		PluginDescriptionFile descFile = this.getDescription();
+		sqlite = new SQLite(log, "[lottery]", this.getDataFolder()
+				.getAbsolutePath(), "lotterydb", ".sqlite");
 
+		if (!sqlite.isOpen()) {
+			sqlite.open();
+		}
+
+		try {
+			sqlite.query("CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, PRIMARY KEY(username));");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		System.out.println("************************ " + rowcount);
+
+		PluginDescriptionFile descFile = this.getDescription();
 		this.createConfig();
 
-		System.out.println("Lottery plugin enabled!");
+		System.out.println("[Lottery] plugin enabled!");
 		System.out.println("Plugin Version: " + descFile.getVersion());
 	}
 
@@ -42,30 +72,98 @@ public class lottery extends JavaPlugin {
 
 		return output;
 	}
-
+	//FIXME verschönern
+	ResultSet lastlotteryresult;
+	String lastlottery;
+	
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String cmdLabel, String[] args) {
 
+		Calendar ca1 = Calendar.getInstance();
+		
+		Player p = (Player) sender;
+		
+		String playername = p.getDisplayName();
+		sqlite = new SQLite(log, "[lottery]", this.getDataFolder()
+				.getAbsolutePath(), "lotterydb", ".sqlite");
+
+		if (!sqlite.isOpen()) {
+			sqlite.open();
+		}
+		
+		try {
+			lastlotteryresult = sqlite.query("SELECT lastlottery FROM lotterytable WHERE username=\"" + playername + "\" LIMIT 1;");
+
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			lastlottery = lastlotteryresult.getString("lastlottery");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		int DAY_OF_YEAR_int=ca1.get(Calendar.DAY_OF_YEAR);
+		String DAY_OF_YEAR = Integer.toString(DAY_OF_YEAR_int);
+		
 		int maxprice = this.getConfig().getInt("max-price");
 		int itemtopay = this.getConfig().getInt("itemtopay");
 		int amounttopay = this.getConfig().getInt("amounttopay");
-		
+
 		// Item to pay
-		ItemStack itemstack = new ItemStack(itemtopay,
-				amounttopay);
+		ItemStack itemstack = new ItemStack(itemtopay, amounttopay);
 
 		boolean returnvar = false;
-
-		Player p = (Player) sender;
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
 			if (p.hasPermission("lottery")) {
 				if (args.length == 0) {
-					if (p.getInventory().containsAtLeast(itemstack, amounttopay)) {
+					if (Integer.toString(DAY_OF_YEAR_int) != lastlottery){
+					if (p.getInventory()
+							.containsAtLeast(itemstack, amounttopay)) {
+
+						
+						sqlite = new SQLite(log, "[lottery]", this.getDataFolder()
+								.getAbsolutePath(), "lotterydb", ".sqlite");
+
+						if (!sqlite.isOpen()) {
+							sqlite.open();
+						}
+						
+						try{
+							ResultSet output = sqlite.query("SELECT * FROM lotterytable WHERE username=\"darcade\";");
+							
+							rowcount = output.getString("username");
+							} catch (SQLException e) {
+								rowcount = null;
+							}
+							
+
+						if (rowcount == null){
+							try {
+								sqlite.query("INSERT INTO lastlottery VALUES(\"" + playername +"\", \"" + DAY_OF_YEAR + "\");");
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						else{
+							try {
+								sqlite.query("UPDATE lotterytable SET lastlottery=\'" + DAY_OF_YEAR +"\' WHERE rowid=1;");
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						p.sendMessage("lastlottery: " + lastlottery);
 						// AIR
 						ItemStack airstack = new ItemStack(190);
-
-
+						
+						p.sendMessage(ChatColor.BOLD + "QUERY:");
 
 						int randomNum = new Random().nextInt((421 + 1) - 1) + 1;
 						int randomAmount = new Random()
@@ -99,10 +197,13 @@ public class lottery extends JavaPlugin {
 					}
 
 					else {
-						p.sendMessage(ChatColor.RED
-								+ "Du hast kein " + itemstack.getType().toString() + " im Inventar");
+						p.sendMessage(ChatColor.RED + "Du hast kein "
+								+ itemstack.getType().toString()
+								+ " im Inventar");
 					}
 					returnvar = true;
+					}
+					returnvar = false;
 				}
 				returnvar = false;
 			}
@@ -113,7 +214,7 @@ public class lottery extends JavaPlugin {
 
 	public void createConfig() {
 		this.saveDefaultConfig();
-		System.out.println("checking config...");
+		System.out.println("[lottery] checking config...");
 	}
 
 }
