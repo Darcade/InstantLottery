@@ -1,0 +1,17 @@
+#Config for lottery Plugin
+
+#DO NOT TOUCH 
+config-version: 1
+
+#Maximum 
+max-price: 10
+
+#Itemid of the Item that is used to pay
+itemtopay: 266
+
+#amount to pay
+amounttopay: 1
+
+#itemblacklist with bedrock as example
+itemblacklist:
+- 7
