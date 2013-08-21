@@ -3,8 +3,16 @@
 #DO NOT TOUCH 
 config-version: 1
 
-#Maximum 
+#Maximum count of items you can win
 max-price: 10
+
+#message
+Message:
+  deny: Du hattest heute schon Lotterie.
+  allow: Du bekommst 
+  noitem:
+    1: Du hast kein 
+    2: mehr
 
 #Itemid of the Item that is used to pay
 itemtopay: 266
