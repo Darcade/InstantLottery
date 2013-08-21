@@ -1,12 +1,10 @@
 name: lottery
-version: 0.1
+version: 1.0
 main: me.darcade.lottery.lottery
-author: Darcade
-website: http://darcade.de/
+author: Darcade, Natenom
+website: http://darcade.de/, http://natenom.name/
 commands:
      lottery:
-          description: IM MOMENT SINNLOS
+          description: does the lottery
           usage: /<command>
-permissions:
-    lottery:
-        description: Allows player to do the lottery
+          permission: lottery
