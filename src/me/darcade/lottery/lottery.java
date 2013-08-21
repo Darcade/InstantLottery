@@ -94,6 +94,7 @@ public class lottery extends JavaPlugin {
 						if (p.getInventory().containsAtLeast(itemstack,
 								amounttopay)) {
 							
+							p.getInventory().removeItem(itemstack);
 							
 							int output = sqlitehandler.lastlottery(username); 
 							
@@ -130,7 +131,7 @@ public class lottery extends JavaPlugin {
 
 							}
 
-							p.getInventory().removeItem(itemstack);
+							
 
 							p.sendMessage(ChatColor.GREEN + allowmessage + " " + wonitem.getType());
 							p.getInventory().addItem(wonitem);
