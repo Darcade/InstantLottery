@@ -1,7 +1,6 @@
-
-
 package me.darcade.lottery;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
@@ -19,10 +18,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.darcade.lottery.SQLitehandler;
 
 public class lottery extends JavaPlugin {
-
-	SQLitehandler sqlitehandler = new SQLitehandler();
+	
+	String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
+	
+	
+	SQLitehandler sqlitehandler = new SQLitehandler(databasedir);
 	static final Logger log = Bukkit.getLogger();
 	
+
 	
 	String rowcount;
 
@@ -33,15 +36,19 @@ public class lottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		sqlitehandler.init();
-		int testoutput = sqlitehandler.lastlottery("darcade");
+		//System.out.println(databasedir);
+		boolean success = (new File(this.getDataFolder().getAbsolutePath())).mkdirs();
 		
-		System.out.println("[lottery] " + Integer.toString(testoutput));
+		if (!success){
+			System.out.println("[lottery] could not create plugin directory");
+		}
+		
+		sqlitehandler.init();
 		
 		PluginDescriptionFile descFile = this.getDescription();
 		this.createConfig();
 
-		System.out.println("[Lottery] plugin enabled!");
+		System.out.println("[lottery] plugin enabled!");
 		System.out.println("Plugin Version: " + descFile.getVersion());
 	}
 

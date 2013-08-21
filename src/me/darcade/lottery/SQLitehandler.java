@@ -4,15 +4,19 @@ import java.sql.*;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public class SQLitehandler extends JavaPlugin{
 	
-	//FIXME NO HARDCODE
-	private String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
-			
-			
+	
+	private String databasedir;
+	
+	public SQLitehandler(String databasedir) {
+		this.databasedir = databasedir;
+	}
+
 	public void init() {
-		System.out.println("init");
+		
+		//System.out.println(databasedir);
+		
 		Connection c = null;
 		Statement stmt = null;
 		
@@ -34,8 +38,7 @@ public class SQLitehandler extends JavaPlugin{
 	}
 	
 	public int lastlottery(String username) {
-		
-		System.out.println("lastlottery");
+
 		Connection c = null;
 		Statement stmt = null;
 		int result = 0;
@@ -69,7 +72,6 @@ public class SQLitehandler extends JavaPlugin{
 	}
 	
 	public void setlastlottery(String username, int lastlottery){
-		System.out.println("setlastlottery");
 		Connection c = null;
 		Statement stmt = null;
 
@@ -99,7 +101,6 @@ public class SQLitehandler extends JavaPlugin{
 		Connection c = null;
 		Statement stmt = null;
 		
-		System.out.println("setmewöastlottery");
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -109,7 +110,6 @@ public class SQLitehandler extends JavaPlugin{
 			
 			String sql = "INSERT INTO lotterytable (username, lastlottery) VALUES('" + username + "', " + lastlottery +");";
 			
-			System.out.println(sql);
 			
 			stmt.executeUpdate(sql);
 			
