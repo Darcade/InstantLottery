@@ -22,4 +22,4 @@ amounttopay: 1
 
 #itemblacklist with bedrock as example
 itemblacklist:
-- 7
+  - 7
