@@ -4,7 +4,7 @@ MinecraftLottery
 This Bukkit plugin will allow you to let the player do the /lottery command and then give him a random item.
 There is also a blacklist in the config.
 
-The project is also available at __[bukkit.org]__(http://dev.bukkit.org/bukkit-plugins/minecraft-lottery/)
+The project is also available at __[bukkit.org](http://dev.bukkit.org/bukkit-plugins/minecraft-lottery/)__
 
 
 Author:
