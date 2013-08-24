@@ -13,6 +13,7 @@ Message:
   noitem:
     1: Du hast kein 
     2: mehr
+  broadcast: gewinnt
 
 #Itemid of the Item that is used to pay
 itemtopay: 266
@@ -23,3 +24,6 @@ amounttopay: 1
 #itemblacklist with bedrock as example
 itemblacklist:
   - 7
+
+#do a broadcast if someone is playing the game
+do-broadcast: true
