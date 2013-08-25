@@ -18,15 +18,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import me.darcade.lottery.SQLitehandler;
 
 public class lottery extends JavaPlugin {
-	
+
 	String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
-	
-	
+
 	SQLitehandler sqlitehandler = new SQLitehandler(databasedir);
 	static final Logger log = Bukkit.getLogger();
-	
 
-	
 	String rowcount;
 
 	@Override
@@ -36,15 +33,16 @@ public class lottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		//System.out.println(databasedir);
-		boolean success = (new File(this.getDataFolder().getAbsolutePath())).mkdirs();
-		
-		if (!success){
+		// System.out.println(databasedir);
+		boolean success = (new File(this.getDataFolder().getAbsolutePath()))
+				.mkdirs();
+
+		if (!success) {
 			System.out.println("[lottery] could not create plugin directory");
 		}
-		
+
 		sqlitehandler.init();
-		
+
 		PluginDescriptionFile descFile = this.getDescription();
 		this.createConfig();
 
@@ -67,7 +65,6 @@ public class lottery extends JavaPlugin {
 		return output;
 	}
 
-
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String cmdLabel, String[] args) {
 
@@ -75,11 +72,11 @@ public class lottery extends JavaPlugin {
 		Calendar ca1 = Calendar.getInstance();
 
 		Player p = (Player) sender;
-//		Server s 
+		// Server s
 
 		String username = p.getDisplayName();
-		
-		int lastlottery = sqlitehandler.lastlottery(username); 
+
+		int lastlottery = sqlitehandler.lastlottery(username);
 
 		int DAY_OF_YEAR = ca1.get(Calendar.DAY_OF_YEAR);
 
@@ -92,10 +89,9 @@ public class lottery extends JavaPlugin {
 		String noitemtwo = this.getConfig().getString("Message.noitem.2");
 		String broadcast = this.getConfig().getString("Message.broadcast");
 		boolean dobroadcast = this.getConfig().getBoolean("do-broadcast");
-		
-		// Item to pay
-		ItemStack itemstack = new ItemStack(itemtopay, amounttopay);		
 
+		// Item to pay
+		ItemStack itemstack = new ItemStack(itemtopay, amounttopay);
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
 			if (p.hasPermission("lottery")) {
@@ -103,23 +99,23 @@ public class lottery extends JavaPlugin {
 					if (DAY_OF_YEAR != lastlottery) {
 						if (p.getInventory().containsAtLeast(itemstack,
 								amounttopay)) {
-							
+
 							p.getInventory().removeItem(itemstack);
-							
-							int output = sqlitehandler.lastlottery(username); 
-							
-							
+
+							int output = sqlitehandler.lastlottery(username);
+
 							if (output == 0) {
-								sqlitehandler.setnewlastlottery(username, DAY_OF_YEAR);
+								sqlitehandler.setnewlastlottery(username,
+										DAY_OF_YEAR);
 							} else {
-								sqlitehandler.setlastlottery(username, DAY_OF_YEAR);
+								sqlitehandler.setlastlottery(username,
+										DAY_OF_YEAR);
 							}
 							// AIR
 							ItemStack airstack = new ItemStack(190);
 
-							int randomNum = new Random().nextInt((421 + 1) - 1) + 1;
-							int randomAmount = new Random()
-									.nextInt((maxprice + 1) - 1) + 1;
+							int randomNum = new Random().nextInt(421) + 1;
+							int randomAmount = new Random().nextInt(maxprice) + 1;
 
 							// won item
 							ItemStack wonitem = new ItemStack(randomNum,
@@ -132,25 +128,27 @@ public class lottery extends JavaPlugin {
 								itemstack = new ItemStack(itemtopay,
 										amounttopay);
 
-								randomNum = new Random().nextInt((421 + 1) - 1) + 1;
-								randomAmount = new Random()
-										.nextInt((maxprice + 1) - 1) + 1;
+								randomNum = new Random().nextInt(421) + 1;
+								randomAmount = new Random().nextInt(maxprice) + 1;
 
 								// won item
 								wonitem = new ItemStack(randomNum, randomAmount);
 
 							}
 
-							
-
-							p.sendMessage(ChatColor.GREEN + allowmessage + " " + randomAmount + " " + wonitem.getType());
+							p.sendMessage(ChatColor.GREEN + allowmessage + " "
+									+ randomAmount + " " + wonitem.getType());
 							p.getInventory().addItem(wonitem);
-							
+
 							if (dobroadcast == true) {
-								for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+								for (Player player : Bukkit.getServer()
+										.getOnlinePlayers()) {
 									if (player != p) {
-										player.sendMessage(ChatColor.GREEN + p.getDisplayName() + " " + broadcast +
-										" " + randomAmount + " " + wonitem.getType());
+										player.sendMessage(ChatColor.GREEN
+												+ p.getDisplayName() + " "
+												+ broadcast + " "
+												+ randomAmount + " "
+												+ wonitem.getType());
 									}
 								}
 							}
@@ -159,12 +157,11 @@ public class lottery extends JavaPlugin {
 
 						else {
 							p.sendMessage(ChatColor.RED + noitemone + " "
-									+ itemstack.getType().toString()
-									+ " " + noitemtwo);
+									+ itemstack.getType().toString() + " "
+									+ noitemtwo);
 						}
 
-					}
-					else {
+					} else {
 						p.sendMessage(ChatColor.RED + denymessage);
 					}
 				}
