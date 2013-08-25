@@ -75,6 +75,7 @@ public class lottery extends JavaPlugin {
 		Calendar ca1 = Calendar.getInstance();
 
 		Player p = (Player) sender;
+//		Server s 
 
 		String username = p.getDisplayName();
 		
@@ -89,9 +90,11 @@ public class lottery extends JavaPlugin {
 		String allowmessage = this.getConfig().getString("Message.allow");
 		String noitemone = this.getConfig().getString("Message.noitem.1");
 		String noitemtwo = this.getConfig().getString("Message.noitem.2");
+		String broadcast = this.getConfig().getString("Message.broadcast");
+		boolean dobroadcast = this.getConfig().getBoolean("do-broadcast");
 		
 		// Item to pay
-		ItemStack itemstack = new ItemStack(itemtopay, amounttopay);
+		ItemStack itemstack = new ItemStack(itemtopay, amounttopay);		
 
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
@@ -140,8 +143,17 @@ public class lottery extends JavaPlugin {
 
 							
 
-							p.sendMessage(ChatColor.GREEN + allowmessage + " " + wonitem.getType());
+							p.sendMessage(ChatColor.GREEN + allowmessage + " " + randomAmount + " " + wonitem.getType());
 							p.getInventory().addItem(wonitem);
+							
+							if (dobroadcast == true) {
+								for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+									if (player != p) {
+										player.sendMessage(ChatColor.GREEN + p.getDisplayName() + " " + broadcast +
+										" " + randomAmount + " " + wonitem.getType());
+									}
+								}
+							}
 
 						}
 
