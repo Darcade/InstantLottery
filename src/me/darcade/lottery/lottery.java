@@ -20,14 +20,10 @@ import me.darcade.lottery.SQLitehandler;
 public class lottery extends JavaPlugin {
 	
 	String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
-	
+	String rowcount;
 	
 	SQLitehandler sqlitehandler = new SQLitehandler(databasedir);
 	static final Logger log = Bukkit.getLogger();
-	
-
-	
-	String rowcount;
 
 	@Override
 	public void onDisable() {
@@ -114,9 +110,9 @@ public class lottery extends JavaPlugin {
 							// AIR
 							ItemStack airstack = new ItemStack(190);
 
-							int randomNum = new Random().nextInt((421 + 1) - 1) + 1;
+							int randomNum = new Random().nextInt(421) + 1;
 							int randomAmount = new Random()
-									.nextInt((maxprice + 1) - 1) + 1;
+									.nextInt(maxprice) + 1;
 
 							// won item
 							ItemStack wonitem = new ItemStack(randomNum,
@@ -129,16 +125,14 @@ public class lottery extends JavaPlugin {
 								itemstack = new ItemStack(itemtopay,
 										amounttopay);
 
-								randomNum = new Random().nextInt((421 + 1) - 1) + 1;
+								randomNum = new Random().nextInt(421) + 1;
 								randomAmount = new Random()
-										.nextInt((maxprice + 1) - 1) + 1;
+										.nextInt(maxprice) + 1;
 
 								// won item
 								wonitem = new ItemStack(randomNum, randomAmount);
 
 							}
-
-							
 
 							p.sendMessage(ChatColor.GREEN + allowmessage + " " + wonitem.getType());
 							p.getInventory().addItem(wonitem);

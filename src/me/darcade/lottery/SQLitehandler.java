@@ -26,15 +26,16 @@ public class SQLitehandler extends JavaPlugin{
 			System.out.println("[lottery] Opened Database successfully");
 			
 			stmt = c.createStatement();
-			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, PRIMARY KEY(username));";
+			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT, lastlottery NUMERIC, PRIMARY KEY(username));";
 			
 			stmt.executeUpdate(sql);
-			stmt.close();c.close();
+			stmt.close();
+			c.close();
+			System.out.println("[lottery] Table successfully created");
 		} catch (Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage());
 			System.exit(1);
 		}
-		System.out.println("[lottery] Table successfully created");
 	}
 	
 	public int lastlottery(String username) {
@@ -49,17 +50,14 @@ public class SQLitehandler extends JavaPlugin{
 			c.setAutoCommit(false);
 			
 			stmt = c.createStatement();
-			String sql = "SELECT lastlottery FROM lotterytable WHERE username=\""+ username + "\" LIMIT 1;";
+			// TODO SQL Injection prevention
+			String sql = "SELECT lastlottery FROM lotterytable WHERE username=\"" + username + "\" LIMIT 1;";
 			
 			ResultSet rs = stmt.executeQuery(sql);
 			
-			
-			
-			
-			if (rs.next() ) {
+			if (rs.next()) {
 				result = rs.getInt("lastlottery");
 			}
-			
 			
 			rs.close();
 			stmt.close();
@@ -82,12 +80,11 @@ public class SQLitehandler extends JavaPlugin{
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
 			
+			// TODO SQL Injection prevention
 			String sql = "UPDATE lotterytable SET lastlottery=\'"
 					+ lastlottery + "\' WHERE username=\"" + username + "\";";
 			
 			stmt.executeUpdate(sql);
-			
-			
 			
 			stmt.close();
 			c.commit();
@@ -101,7 +98,6 @@ public class SQLitehandler extends JavaPlugin{
 		Connection c = null;
 		Statement stmt = null;
 		
-		
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection(databasedir);
@@ -110,9 +106,7 @@ public class SQLitehandler extends JavaPlugin{
 			
 			String sql = "INSERT INTO lotterytable (username, lastlottery) VALUES('" + username + "', " + lastlottery +");";
 			
-			
 			stmt.executeUpdate(sql);
-			
 			
 			stmt.close();
 			c.commit();
