@@ -20,6 +20,7 @@ import me.darcade.lottery.SQLitehandler;
 public class lottery extends JavaPlugin {
 
 	String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
+	//String databasedir = "jdbc:sqlite:" + this.getDataFolder().getAbsolutePath().toString();
 
 	SQLitehandler sqlitehandler = new SQLitehandler(databasedir);
 	static final Logger log = Bukkit.getLogger();
