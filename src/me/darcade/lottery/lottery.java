@@ -86,8 +86,7 @@ public class lottery extends JavaPlugin {
 		int amounttopay = this.getConfig().getInt("amounttopay");
 		String denymessage = this.getConfig().getString("Message.deny");
 		String allowmessage = this.getConfig().getString("Message.allow");
-		String noitemone = this.getConfig().getString("Message.noitem.1");
-		String noitemtwo = this.getConfig().getString("Message.noitem.2");
+		String noitem = this.getConfig().getString("Message.noitem");
 		String broadcast = this.getConfig().getString("Message.broadcast");
 		boolean dobroadcast = this.getConfig().getBoolean("do-broadcast");
 
@@ -117,7 +116,7 @@ public class lottery extends JavaPlugin {
 
 							int randomNum = new Random().nextInt(421) + 1;
 							int randomAmount = new Random().nextInt(maxprice) + 1;
-
+							
 							// won item
 							ItemStack wonitem = new ItemStack(randomNum,
 									randomAmount);
@@ -131,25 +130,23 @@ public class lottery extends JavaPlugin {
 
 								randomNum = new Random().nextInt(421) + 1;
 								randomAmount = new Random().nextInt(maxprice) + 1;
-
+								
+								
 								// won item
 								wonitem = new ItemStack(randomNum, randomAmount);
+								
 
 							}
-
-							p.sendMessage(ChatColor.GREEN + allowmessage + " "
-									+ randomAmount + " " + wonitem.getType());
+							
+							
+							p.sendMessage(ChatColor.GREEN + allowmessage.replaceAll("%AMOUNT%", String.valueOf(randomAmount)).replaceAll("%WONITEM%", String.valueOf(wonitem.getType())));
 							p.getInventory().addItem(wonitem);
 
 							if (dobroadcast == true) {
 								for (Player player : Bukkit.getServer()
 										.getOnlinePlayers()) {
 									if (player != p) {
-										player.sendMessage(ChatColor.GREEN
-												+ p.getDisplayName() + " "
-												+ broadcast + " "
-												+ randomAmount + " "
-												+ wonitem.getType());
+										player.sendMessage(ChatColor.GREEN + broadcast.replaceAll("%PLAYER%", p.getDisplayName()).replaceAll("%AMOUNT%", String.valueOf(randomAmount)).replaceAll("%WONITEM%", wonitem.getType().toString()));
 									}
 								}
 							}
@@ -157,9 +154,7 @@ public class lottery extends JavaPlugin {
 						}
 
 						else {
-							p.sendMessage(ChatColor.RED + noitemone + " "
-									+ itemstack.getType().toString() + " "
-									+ noitemtwo);
+							p.sendMessage(ChatColor.RED + noitem.replaceAll("%PAYITEM%", itemstack.getType().toString()));
 						}
 
 					} else {
