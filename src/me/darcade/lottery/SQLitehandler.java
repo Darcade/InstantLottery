@@ -13,9 +13,6 @@ public class SQLitehandler extends JavaPlugin {
 	}
 
 	public void init() {
-
-		// System.out.println(databasedir);
-
 		Connection c = null;
 		Statement stmt = null;
 

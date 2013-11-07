@@ -8,10 +8,18 @@ max-price: 10
 
 #message
 Message:
+#allowed replacement-tags: none            
   deny: You already had your lottery.
+  
+#allowed replacement-tags: %AMOUNT% %WONITEM 
   allow: You get %AMOUNT% of %WONITEM%.
+  
+#allowed replacement-tags: %PAYITEM%
   noitem: You have no more %PAYITEM%.
+  
+#allowed replacement-tags: %PLAYER% %AMOUNT% %WONITEM%
   broadcast: Gratz! %PLAYER% won %AMOUNT% of %WONITEM%.
+  
 
 #Itemid of the Item that is used to pay
 itemtopay: 266
