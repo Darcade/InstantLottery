@@ -51,16 +51,13 @@ public class lottery extends JavaPlugin {
 
 		PluginDescriptionFile descFile = this.getDescription();
 		this.createConfig();
-		
-		getCommand("lottery").setExecutor(new CommandExecutorClass(this, sqlitehandler));
+
+		getCommand("lottery").setExecutor(
+				new CommandExecutorClass(this, sqlitehandler));
 
 		System.out.println("[lottery] plugin enabled!");
 		System.out.println("Plugin Version: " + descFile.getVersion());
 	}
-
-
-
-	
 
 	public void createConfig() {
 		this.saveDefaultConfig();
