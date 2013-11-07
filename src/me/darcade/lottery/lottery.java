@@ -19,11 +19,9 @@ import me.darcade.lottery.SQLitehandler;
 
 public class lottery extends JavaPlugin {
 
-	String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
-	// String databasedir = "jdbc:sqlite:" +
-	// this.getDataFolder().getAbsolutePath().toString();
+	SQLitehandler sqlitehandler;
+	 
 
-	SQLitehandler sqlitehandler = new SQLitehandler(databasedir);
 	static final Logger log = Bukkit.getLogger();
 
 	String rowcount;
@@ -35,7 +33,11 @@ public class lottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		// System.out.println(databasedir);
+		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString() + "/database.sqlite";
+
+		sqlitehandler = new SQLitehandler(databasedir);
+		
+		System.out.println(databasedir);
 		boolean success = (new File(this.getDataFolder().getAbsolutePath()))
 				.mkdirs();
 
