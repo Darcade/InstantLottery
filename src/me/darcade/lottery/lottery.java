@@ -20,7 +20,8 @@ import me.darcade.lottery.SQLitehandler;
 public class lottery extends JavaPlugin {
 
 	String databasedir = "jdbc:sqlite:plugins/lottery/database.sqlite";
-	//String databasedir = "jdbc:sqlite:" + this.getDataFolder().getAbsolutePath().toString();
+	// String databasedir = "jdbc:sqlite:" +
+	// this.getDataFolder().getAbsolutePath().toString();
 
 	SQLitehandler sqlitehandler = new SQLitehandler(databasedir);
 	static final Logger log = Bukkit.getLogger();
@@ -72,13 +73,6 @@ public class lottery extends JavaPlugin {
 		// init what we need
 		Calendar ca1 = Calendar.getInstance();
 
-		Player p = (Player) sender;
-		// Server s
-
-		String username = p.getDisplayName();
-
-		int lastlottery = sqlitehandler.lastlottery(username);
-
 		int DAY_OF_YEAR = ca1.get(Calendar.DAY_OF_YEAR);
 
 		int maxprice = this.getConfig().getInt("max-price");
@@ -94,7 +88,17 @@ public class lottery extends JavaPlugin {
 		ItemStack itemstack = new ItemStack(itemtopay, amounttopay);
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage("This command can only be runned by a player!");
+				return false;
+			}
+
+			Player p = (Player) sender;
+			String username = p.getDisplayName();
+			int lastlottery = sqlitehandler.lastlottery(username);
+
 			if (p.hasPermission("lottery")) {
+
 				if (args.length == 0) {
 					if (DAY_OF_YEAR != lastlottery) {
 						if (p.getInventory().containsAtLeast(itemstack,
@@ -116,7 +120,7 @@ public class lottery extends JavaPlugin {
 
 							int randomNum = new Random().nextInt(421) + 1;
 							int randomAmount = new Random().nextInt(maxprice) + 1;
-							
+
 							// won item
 							ItemStack wonitem = new ItemStack(randomNum,
 									randomAmount);
@@ -130,23 +134,37 @@ public class lottery extends JavaPlugin {
 
 								randomNum = new Random().nextInt(421) + 1;
 								randomAmount = new Random().nextInt(maxprice) + 1;
-								
-								
+
 								// won item
 								wonitem = new ItemStack(randomNum, randomAmount);
-								
 
 							}
-							
-							
-							p.sendMessage(ChatColor.GREEN + allowmessage.replaceAll("%AMOUNT%", String.valueOf(randomAmount)).replaceAll("%WONITEM%", String.valueOf(wonitem.getType())));
+
+							p.sendMessage(ChatColor.GREEN
+									+ allowmessage.replaceAll("%AMOUNT%",
+											String.valueOf(randomAmount))
+											.replaceAll(
+													"%WONITEM%",
+													String.valueOf(wonitem
+															.getType())));
 							p.getInventory().addItem(wonitem);
 
 							if (dobroadcast == true) {
 								for (Player player : Bukkit.getServer()
 										.getOnlinePlayers()) {
 									if (player != p) {
-										player.sendMessage(ChatColor.GREEN + broadcast.replaceAll("%PLAYER%", p.getDisplayName()).replaceAll("%AMOUNT%", String.valueOf(randomAmount)).replaceAll("%WONITEM%", wonitem.getType().toString()));
+										player.sendMessage(ChatColor.GREEN
+												+ broadcast
+														.replaceAll(
+																"%PLAYER%",
+																p.getDisplayName())
+														.replaceAll(
+																"%AMOUNT%",
+																String.valueOf(randomAmount))
+														.replaceAll(
+																"%WONITEM%",
+																wonitem.getType()
+																		.toString()));
 									}
 								}
 							}
@@ -154,7 +172,9 @@ public class lottery extends JavaPlugin {
 						}
 
 						else {
-							p.sendMessage(ChatColor.RED + noitem.replaceAll("%PAYITEM%", itemstack.getType().toString()));
+							p.sendMessage(ChatColor.RED
+									+ noitem.replaceAll("%PAYITEM%", itemstack
+											.getType().toString()));
 						}
 
 					} else {
@@ -162,6 +182,7 @@ public class lottery extends JavaPlugin {
 					}
 				}
 			}
+
 		}
 		return true;
 	}
