@@ -1,4 +1,4 @@
-package me.darcade.lottery;
+package me.darcade.minecraftlottery;
 
 import java.io.File;
 import java.util.Calendar;
@@ -17,9 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.darcade.lottery.SQLitehandler;
+import me.darcade.minecraftlottery.SQLitehandler;
 
-public class lottery extends JavaPlugin {
+public class MinecraftLottery extends JavaPlugin {
 
 	SQLitehandler sqlitehandler;
 
@@ -29,7 +29,7 @@ public class lottery extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		System.out.println("Lottery plugin disabled!");
+		System.out.println("[MinecraftLottery] MinecraftLottery plugin disabled!");
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class lottery extends JavaPlugin {
 				.mkdirs();
 
 		if (!success) {
-			System.out.println("[lottery] could not create plugin directory");
+			System.out.println("[MinecraftLottery] Could not create plugin directory");
 		}
 
 		sqlitehandler.init();
@@ -55,13 +55,13 @@ public class lottery extends JavaPlugin {
 		getCommand("lottery").setExecutor(
 				new CommandExecutorClass(this, sqlitehandler));
 
-		System.out.println("[lottery] plugin enabled!");
-		System.out.println("Plugin Version: " + descFile.getVersion());
+		System.out.println("[MinecraftLottery] Plugin enabled!");
+		System.out.println("[MinecraftLottery] Plugin Version: " + descFile.getVersion());
 	}
 
 	public void createConfig() {
 		this.saveDefaultConfig();
-		System.out.println("[lottery] checking config...");
+		System.out.println("[MinecraftLottery] Checking config...");
 	}
 
 }

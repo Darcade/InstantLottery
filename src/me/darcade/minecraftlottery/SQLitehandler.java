@@ -1,4 +1,4 @@
-package me.darcade.lottery;
+package me.darcade.minecraftlottery;
 
 import java.sql.*;
 

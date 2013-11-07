@@ -1,4 +1,4 @@
-package me.darcade.lottery;
+package me.darcade.minecraftlottery;
 
 import java.util.Calendar;
 import java.util.List;
@@ -14,10 +14,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class CommandExecutorClass implements CommandExecutor {
 
-	lottery lottery;
+	MinecraftLottery lottery;
 	SQLitehandler sqlitehandler;
 
-	public CommandExecutorClass(lottery lottery, SQLitehandler sqlitehandler) {
+	public CommandExecutorClass(MinecraftLottery lottery, SQLitehandler sqlitehandler) {
 		this.lottery = lottery;
 		this.sqlitehandler = sqlitehandler;
 	}
