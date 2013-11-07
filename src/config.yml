@@ -1,7 +1,7 @@
 #Config for lottery Plugin
 
 #DO NOT TOUCH 
-config-version: 1
+config-version: 2
 
 #Maximum count of items you can win
 max-price: 10
