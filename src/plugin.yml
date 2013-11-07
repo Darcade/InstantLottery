@@ -1,10 +1,10 @@
 name: lottery
-version: 1.0
+version: 1.1
 main: me.darcade.lottery.lottery
 author: Darcade, Natenom
 website: http://darcade.de/, http://natenom.name/
 commands:
      lottery:
-          description: does the lottery
+          description: Gives the player executing the command a random item.
           usage: /<command>
           permission: lottery
