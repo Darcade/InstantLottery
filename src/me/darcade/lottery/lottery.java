@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +21,6 @@ import me.darcade.lottery.SQLitehandler;
 public class lottery extends JavaPlugin {
 
 	SQLitehandler sqlitehandler;
-	 
 
 	static final Logger log = Bukkit.getLogger();
 
@@ -33,10 +33,11 @@ public class lottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString() + "/database.sqlite";
+		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
+				+ "/database.sqlite";
 
 		sqlitehandler = new SQLitehandler(databasedir);
-		
+
 		System.out.println(databasedir);
 		boolean success = (new File(this.getDataFolder().getAbsolutePath()))
 				.mkdirs();
@@ -182,7 +183,15 @@ public class lottery extends JavaPlugin {
 					} else {
 						p.sendMessage(ChatColor.RED + denymessage);
 					}
-				}
+				} /*else if (args.length == 1) {
+					if (args[0] == "help") {
+						p.sendMessage(args[0] + ChatColor.YELLOW + "/lottery "
+								+ ChatColor.WHITE
+								+ "Gives the player a random item, requires "
+								+ Material.getMaterial(amounttopay) + " of "
+								+ Material.getMaterial(itemtopay));
+					}
+				}*/
 			}
 
 		}
