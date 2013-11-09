@@ -1,6 +1,7 @@
 package me.darcade.minecraftlottery;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import me.darcade.minecraftlottery.SQLitehandler;
 public class MinecraftLottery extends JavaPlugin {
 
 	SQLitehandler sqlitehandler;
+	WhitelistHandler whitelisthandler = new WhitelistHandler(this);
 
 	static final Logger log = Bukkit.getLogger();
 
@@ -25,7 +27,6 @@ public class MinecraftLottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-
 		// setup SQLite database and
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
 				+ "/database.sqlite";
@@ -45,18 +46,24 @@ public class MinecraftLottery extends JavaPlugin {
 
 		PluginDescriptionFile descFile = this.getDescription();
 		this.createConfig();
-
+		
+		whitelisthandler.saveDefaultWhitelist();
+		whitelisthandler.reloadWhitelist();
+		List<String> test = whitelisthandler.getWhitelist().getStringList("whitelist");
+		System.out.println("TEST" + test);
 		getCommand("lottery").setExecutor(
 				new CommandExecutorClass(this, sqlitehandler));
-
+		
 		System.out.println("[MinecraftLottery] Plugin enabled!");
 		System.out.println("[MinecraftLottery] Plugin Version: "
 				+ descFile.getVersion());
 	}
 
-	public void createConfig() {
+	private void createConfig() {
 		this.saveDefaultConfig();
 		System.out.println("[MinecraftLottery] Checking config...");
 	}
+	
+
 
 }
