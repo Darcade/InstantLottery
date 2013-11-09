@@ -34,12 +34,8 @@ public class MinecraftLottery extends JavaPlugin {
 				+ "/database.sqlite";
 
 		sqlitehandler = new SQLitehandler(databasedir);
-
-		System.out.println(databasedir);
-		boolean success = (new File(this.getDataFolder().getAbsolutePath()))
-				.mkdirs();
-
-		if (!success) {
+		
+		if (!new File(this.getDataFolder().getAbsolutePath()).mkdirs()) {
 			System.out
 					.println("[MinecraftLottery] Could not create plugin directory");
 		}

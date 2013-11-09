@@ -19,7 +19,7 @@ public class SQLitehandler extends JavaPlugin {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection(databasedir);
-			System.out.println("[lottery] Opened Database successfully");
+			System.out.println("[MinecraftLottery] Opened Database successfully");
 
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, PRIMARY KEY(username));";
@@ -27,7 +27,7 @@ public class SQLitehandler extends JavaPlugin {
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.close();
-			System.out.println("[lottery] Table successfully created");
+			System.out.println("[MinecraftLottery] Table successfully created");
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(1);
