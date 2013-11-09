@@ -17,7 +17,8 @@ public class CommandExecutorClass implements CommandExecutor {
 	MinecraftLottery lottery;
 	SQLitehandler sqlitehandler;
 
-	public CommandExecutorClass(MinecraftLottery lottery, SQLitehandler sqlitehandler) {
+	public CommandExecutorClass(MinecraftLottery lottery,
+			SQLitehandler sqlitehandler) {
 		this.lottery = lottery;
 		this.sqlitehandler = sqlitehandler;
 	}
@@ -159,7 +160,7 @@ public class CommandExecutorClass implements CommandExecutor {
 				 */
 			}
 
-		} 
+		}
 		return true;
 	}
 

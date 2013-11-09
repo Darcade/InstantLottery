@@ -18,20 +18,26 @@ public class WhitelistHandler {
 	}
 
 	public void saveDefaultWhitelist() {
-		if (! new File(minecraftlottery.getDataFolder(), filename).exists()) {
-			System.out.println("Whitelist: " + new File(minecraftlottery.getDataFolder(), filename).toString() + "Existert:" + new File(minecraftlottery.getDataFolder(), filename).exists());
+		if (!new File(minecraftlottery.getDataFolder(), filename).exists()) {
+			System.out.println("Whitelist: "
+					+ new File(minecraftlottery.getDataFolder(), filename)
+							.toString()
+					+ "Existert:"
+					+ new File(minecraftlottery.getDataFolder(), filename)
+							.exists());
 			minecraftlottery.saveResource(filename, false);
 		}
 	}
 
 	public FileConfiguration getWhitelist() {
-		if(whitelist == null)
+		if (whitelist == null)
 			return null;
 		return whitelist;
 	}
 
 	public void reloadWhitelist() {
-		whitelist = YamlConfiguration.loadConfiguration(new File(minecraftlottery.getDataFolder(), filename));
+		whitelist = YamlConfiguration.loadConfiguration(new File(
+				minecraftlottery.getDataFolder(), filename));
 	}
 
 }

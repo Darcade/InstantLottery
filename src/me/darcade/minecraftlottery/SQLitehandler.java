@@ -19,7 +19,8 @@ public class SQLitehandler extends JavaPlugin {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection(databasedir);
-			System.out.println("[MinecraftLottery] Opened Database successfully");
+			System.out
+					.println("[MinecraftLottery] Opened Database successfully");
 
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, PRIMARY KEY(username));";

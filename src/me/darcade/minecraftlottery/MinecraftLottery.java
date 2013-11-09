@@ -16,7 +16,6 @@ public class MinecraftLottery extends JavaPlugin {
 	SQLitehandler sqlitehandler;
 	WhitelistHandler whitelisthandler = new WhitelistHandler(this);
 
-
 	static final Logger log = Bukkit.getLogger();
 
 	String rowcount;
@@ -34,7 +33,7 @@ public class MinecraftLottery extends JavaPlugin {
 				+ "/database.sqlite";
 
 		sqlitehandler = new SQLitehandler(databasedir);
-		
+
 		if (!new File(this.getDataFolder().getAbsolutePath()).mkdirs()) {
 			System.out
 					.println("[MinecraftLottery] Could not create plugin directory");
@@ -43,19 +42,16 @@ public class MinecraftLottery extends JavaPlugin {
 		sqlitehandler.init();
 
 		PluginDescriptionFile descFile = this.getDescription();
-		
-		
+
 		whitelisthandler.saveDefaultWhitelist();
 		whitelisthandler.reloadWhitelist();
 		getCommand("lottery").setExecutor(
 				new CommandExecutorClass(this, sqlitehandler));
 
-		
-		
 		checkConfigVersion();
-		
+
 		this.createConfig();
-		
+
 		System.out.println("[MinecraftLottery] Plugin enabled!");
 		System.out.println("[MinecraftLottery] Plugin Version: "
 				+ descFile.getVersion());
@@ -65,24 +61,26 @@ public class MinecraftLottery extends JavaPlugin {
 		this.saveDefaultConfig();
 		System.out.println("[MinecraftLottery] Checking config...");
 	}
-	
-	private void checkConfigVersion(){
-		
+
+	private void checkConfigVersion() {
+
 		File oldconfig = new File(this.getDataFolder() + "/config.yml");
-		File movedconfig = new File(this.getDataFolder() + "/config_old.yml"); 
+		File movedconfig = new File(this.getDataFolder() + "/config_old.yml");
+
+		String latestversion = YamlConfiguration.loadConfiguration(this.getResource("config.yml")).getString("config-version"); 
+		String localversion = this.getConfig().getString("config-version");
 		
-		if (oldconfig.exists() && YamlConfiguration.loadConfiguration(this.getResource("config.yml")).getString("config-version") != this.getConfig().getString("config-version"));{
+		if (!latestversion.equalsIgnoreCase(localversion) && oldconfig.exists()) {
 			log.warning("[MinecraftLottery] The config is not up to date moving it to config_old.yml, and creating a new one.");
-			
-			
+
 			if (!movedconfig.exists()) {
-				 
-				System.out.println("MOVING " + oldconfig.renameTo(movedconfig) + oldconfig.toString() + movedconfig.toString());
+				oldconfig.renameTo(movedconfig);
+				System.out.println("latest: '" + latestversion + "' localversion: '" + localversion + "'");
+			} else {
+				System.err
+						.println("[MinecraftLottery] Please first remove the old config called \"config_old.yml\", and then restart the server.");
 			}
-			else {
-				System.err.println("[MinecraftLottery] Please first remove the old config called \"config_old.yml\", and then restart the server.");
-			}
-				
+
 		}
 	}
 
