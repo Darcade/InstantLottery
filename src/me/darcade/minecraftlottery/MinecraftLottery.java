@@ -75,7 +75,6 @@ public class MinecraftLottery extends JavaPlugin {
 
 			if (!movedconfig.exists()) {
 				oldconfig.renameTo(movedconfig);
-				System.out.println("latest: '" + latestversion + "' localversion: '" + localversion + "'");
 			} else {
 				System.err
 						.println("[MinecraftLottery] Please first remove the old config called \"config_old.yml\", and then restart the server.");
