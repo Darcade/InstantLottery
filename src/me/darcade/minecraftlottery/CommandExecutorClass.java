@@ -159,6 +159,10 @@ public class CommandExecutorClass implements CommandExecutor {
 								+ amounttopay + " of "
 								+ new ItemStack(itemtopay).getType());
 					}
+					else if(args[0].equalsIgnoreCase("reload")) {
+						if(p.hasPermission("lottery.reload"))
+							lottery.reload(p);
+					}
 				}
 			}
 

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,7 +28,7 @@ public class MinecraftLottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		//this.checkVersion();
+		this.checkVersion();
 
 		// setup SQLite database and
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
@@ -99,4 +100,10 @@ public class MinecraftLottery extends JavaPlugin {
 		}
 	}
 
+	public void reload(Player p){
+		p.sendMessage("reloading...");
+		this.reloadConfig();
+		whitelisthandler.reloadWhitelist();
+		p.sendMessage("reload finished.");
+	}
 }

@@ -1,7 +1,10 @@
 package me.darcade.minecraftlottery;
 
 import java.io.File;
+import java.util.List;
+import java.util.Random;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -38,6 +41,25 @@ public class WhitelistHandler {
 	public void reloadWhitelist() {
 		whitelist = YamlConfiguration.loadConfiguration(new File(
 				minecraftlottery.getDataFolder(), filename));
+	}
+
+	public Material getRandomItem() {
+		Material wonitem = null;
+		if (minecraftlottery.getConfig().getString("itemlist")
+				.equalsIgnoreCase("whitelist")) {
+			List<String> whitelistitems = whitelist.getStringList("whitelist");
+
+			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
+			wonitem = Material.valueOf(whitelistitems.get(randomNum));
+		} else if (minecraftlottery.getConfig().getString("itemlist").equalsIgnoreCase("blacklist")) {
+			List<String> whitelistitems = YamlConfiguration.loadConfiguration(minecraftlottery.getResource("whitelist.yml")).getStringList("whitelist");
+			
+			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
+			wonitem = Material.valueOf(whitelistitems.get(randomNum));
+			
+			//TODO add check for blacklist.
+		}
+		return wonitem;
 	}
 
 }

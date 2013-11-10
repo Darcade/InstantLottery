@@ -21,15 +21,18 @@ Message:
   broadcast: Gratz! %PLAYER% won %AMOUNT% of %WONITEM%.
   
 
-#Itemid of the Item that is used to pay
-itemtopay: 266
+#Name of the Item that is used to pay
+#WARNING: Item ID's wont work!
+itemtopay: GOLD_INGOT
 
 #amount to pay
 amounttopay: 1
 
-#itemblacklist with bedrock as example
-itemblacklist:
-  - 7
+#You can chose if you want to use the blacklist, or the whitelist
+#whitelist means it will only use the items that are written into the whitelist.yml file.
+#blacklist means it will not use the items written into the blacklist.yml file.
+#itemlist: [blacklist/whitelist]
+itemlist: blacklist
 
-#do a broadcast if someone is playing the game
+#Broadcast when someone win's an item
 do-broadcast: true
