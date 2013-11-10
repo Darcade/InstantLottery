@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -105,10 +106,10 @@ public class MinecraftLottery extends JavaPlugin {
 	}
 
 	public void reload(Player p){
-		p.sendMessage("reloading...");
+		p.sendMessage(ChatColor.GRAY + "reloading...");
 		this.reloadConfig();
 		whitelisthandler.reloadWhitelist();
 		blacklisthandler.reloadBlacklist();
-		p.sendMessage("reload finished.");
+		p.sendMessage(ChatColor.GRAY + "reload finished.");
 	}
 }
