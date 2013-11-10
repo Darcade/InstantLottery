@@ -15,6 +15,7 @@ public class MinecraftLottery extends JavaPlugin {
 
 	SQLitehandler sqlitehandler;
 	WhitelistHandler whitelisthandler = new WhitelistHandler(this);
+	BlacklistHandler blacklisthandler = new BlacklistHandler(this);
 
 	static final Logger log = Bukkit.getLogger();
 
@@ -50,6 +51,9 @@ public class MinecraftLottery extends JavaPlugin {
 
 		whitelisthandler.saveDefaultWhitelist();
 		whitelisthandler.reloadWhitelist();
+		blacklisthandler.saveDefaultBlacklist();
+		blacklisthandler.reloadBlacklist();
+		
 		getCommand("lottery").setExecutor(
 				new CommandExecutorClass(this, sqlitehandler));
 
@@ -104,6 +108,7 @@ public class MinecraftLottery extends JavaPlugin {
 		p.sendMessage("reloading...");
 		this.reloadConfig();
 		whitelisthandler.reloadWhitelist();
+		blacklisthandler.reloadBlacklist();
 		p.sendMessage("reload finished.");
 	}
 }

@@ -51,13 +51,20 @@ public class WhitelistHandler {
 
 			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
 			wonitem = Material.valueOf(whitelistitems.get(randomNum));
-		} else if (minecraftlottery.getConfig().getString("itemlist").equalsIgnoreCase("blacklist")) {
-			List<String> whitelistitems = YamlConfiguration.loadConfiguration(minecraftlottery.getResource("whitelist.yml")).getStringList("whitelist");
-			
+		} else if (minecraftlottery.getConfig().getString("itemlist")
+				.equalsIgnoreCase("blacklist")) {
+			List<String> whitelistitems = YamlConfiguration.loadConfiguration(
+					minecraftlottery.getResource("whitelist.yml"))
+					.getStringList("whitelist");
+
 			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
 			wonitem = Material.valueOf(whitelistitems.get(randomNum));
-			
-			//TODO add check for blacklist.
+
+			while (new BlacklistHandler(minecraftlottery)
+					.checkforblacklist(wonitem)) {
+				randomNum = new Random().nextInt(whitelistitems.size()) + 1;
+				wonitem = Material.valueOf(whitelistitems.get(randomNum));
+			}
 		}
 		return wonitem;
 	}

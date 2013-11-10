@@ -17,7 +17,7 @@ public class BlacklistHandler {
 		this.minecraftlottery = minecraftlottery;
 	}
 
-	public void saveDefaultWhitelist() {
+	public void saveDefaultBlacklist() {
 		if (!new File(minecraftlottery.getDataFolder(), filename).exists()) {
 			System.out.println("Blacklist: "
 					+ new File(minecraftlottery.getDataFolder(), filename)
@@ -29,13 +29,13 @@ public class BlacklistHandler {
 		}
 	}
 
-	public FileConfiguration getWhitelist() {
+	public FileConfiguration getBlacklist() {
 		if (blacklist == null)
 			return null;
 		return blacklist;
 	}
 
-	public void reloadWhitelist() {
+	public void reloadBlacklist() {
 		blacklist = YamlConfiguration.loadConfiguration(new File(
 				minecraftlottery.getDataFolder(), filename));
 	}
