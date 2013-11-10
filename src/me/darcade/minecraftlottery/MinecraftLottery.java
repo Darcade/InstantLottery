@@ -27,7 +27,7 @@ public class MinecraftLottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.checkVersion();
+		//this.checkVersion();
 
 		// setup SQLite database and
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
@@ -37,7 +37,7 @@ public class MinecraftLottery extends JavaPlugin {
 
 		File plugindir = new File(this.getDataFolder().getAbsolutePath());
 
-		if (plugindir.exists()) {
+		if (!plugindir.exists()) {
 			if (!plugindir.mkdirs())
 				System.out
 						.println("[MinecraftLottery] Could not create plugin directory");
@@ -55,15 +55,14 @@ public class MinecraftLottery extends JavaPlugin {
 		checkConfigVersion();
 
 		this.createConfig();
-
-		System.out.println("[MinecraftLottery] Plugin enabled!");
-		System.out.println("[MinecraftLottery] Plugin Version: "
-				+ descFile.getVersion());
+		
+		System.out.println("[MinecraftLottery] MinecraftLottery Version: "
+				+ descFile.getVersion() + " enabled");
 	}
 
 	private void createConfig() {
 		this.saveDefaultConfig();
-		System.out.println("[MinecraftLottery] Checking config...");
+		//System.out.println("[MinecraftLottery] Checking config...");
 	}
 
 	private void checkConfigVersion() {
