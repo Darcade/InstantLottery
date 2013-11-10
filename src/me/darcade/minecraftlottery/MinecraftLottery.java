@@ -1,7 +1,6 @@
 package me.darcade.minecraftlottery;
 
 import java.io.File;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -29,16 +28,19 @@ public class MinecraftLottery extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.checkVersion();
-		
+
 		// setup SQLite database and
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
 				+ "/database.sqlite";
 
 		sqlitehandler = new SQLitehandler(databasedir);
 
-		if (!new File(this.getDataFolder().getAbsolutePath()).mkdirs()) {
-			System.out
-					.println("[MinecraftLottery] Could not create plugin directory");
+		File plugindir = new File(this.getDataFolder().getAbsolutePath());
+
+		if (plugindir.exists()) {
+			if (!plugindir.mkdirs())
+				System.out
+						.println("[MinecraftLottery] Could not create plugin directory");
 		}
 
 		sqlitehandler.init();
@@ -69,9 +71,10 @@ public class MinecraftLottery extends JavaPlugin {
 		File oldconfig = new File(this.getDataFolder() + "/config.yml");
 		File movedconfig = new File(this.getDataFolder() + "/config_old.yml");
 
-		String latestversion = YamlConfiguration.loadConfiguration(this.getResource("config.yml")).getString("config-version"); 
+		String latestversion = YamlConfiguration.loadConfiguration(
+				this.getResource("config.yml")).getString("config-version");
 		String localversion = this.getConfig().getString("config-version");
-		
+
 		if (!latestversion.equalsIgnoreCase(localversion) && oldconfig.exists()) {
 			log.warning("[MinecraftLottery] The config is not up to date moving it to config_old.yml, and creating a new one.");
 
@@ -84,13 +87,16 @@ public class MinecraftLottery extends JavaPlugin {
 
 		}
 	}
-	
+
 	private void checkVersion() {
 		UpdateChecker updatechecker = new UpdateChecker();
-		
-		if(!this.getDescription().getVersion().equalsIgnoreCase(updatechecker.checkversion())){
-			System.out.println("[MinecraftLottery] There is a new update for MinecraftLottery!");
-			System.out.println("[MinecraftLottery] Download it here " + updatechecker.getDownload());
+
+		if (!this.getDescription().getVersion()
+				.equalsIgnoreCase(updatechecker.checkversion())) {
+			System.out
+					.println("[MinecraftLottery] There is a new update for MinecraftLottery!");
+			System.out.println("[MinecraftLottery] Download it here "
+					+ updatechecker.getDownload());
 		}
 	}
 
