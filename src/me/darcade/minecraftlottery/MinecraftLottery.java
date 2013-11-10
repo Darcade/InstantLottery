@@ -28,6 +28,8 @@ public class MinecraftLottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		this.checkVersion();
+		
 		// setup SQLite database and
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
 				+ "/database.sqlite";
@@ -80,6 +82,15 @@ public class MinecraftLottery extends JavaPlugin {
 						.println("[MinecraftLottery] Please first remove the old config called \"config_old.yml\", and then restart the server.");
 			}
 
+		}
+	}
+	
+	private void checkVersion() {
+		UpdateChecker updatechecker = new UpdateChecker();
+		
+		if(!this.getDescription().getVersion().equalsIgnoreCase(updatechecker.checkversion())){
+			System.out.println("[MinecraftLottery] There is a new update for MinecraftLottery!");
+			System.out.println("[MinecraftLottery] Download it here " + updatechecker.getDownload());
 		}
 	}
 
