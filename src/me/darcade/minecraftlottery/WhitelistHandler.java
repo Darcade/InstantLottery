@@ -57,12 +57,13 @@ public class WhitelistHandler {
 					minecraftlottery.getResource("whitelist.yml"))
 					.getStringList("whitelist");
 
-			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
+			int whitelistlenght = whitelistitems.size();
+			int randomNum = new Random().nextInt(whitelistlenght);
 			wonitem = Material.valueOf(whitelistitems.get(randomNum));
 
 			while (new BlacklistHandler(minecraftlottery)
 					.checkforblacklist(wonitem)) {
-				randomNum = new Random().nextInt(whitelistitems.size()) + 1;
+				randomNum = new Random().nextInt(whitelistlenght);
 				wonitem = Material.valueOf(whitelistitems.get(randomNum));
 			}
 		}

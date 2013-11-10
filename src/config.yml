@@ -8,16 +8,16 @@ max-price: 10
 
 #message
 Message:
-#allowed replacement-tags: none            
+#Message when the player tries to         
   deny: You already had your lottery.
   
-#allowed replacement-tags: %AMOUNT% %WONITEM 
+#Message that the player gets that does the lottery
   allow: You get %AMOUNT% of %WONITEM%.
   
-#allowed replacement-tags: %PAYITEM%
-  noitem: You have no more %PAYITEM%.
+#message when the player has no item to pay.
+  noitem: You have no %PAYITEM% in your inventory.
   
-#allowed replacement-tags: %PLAYER% %AMOUNT% %WONITEM%
+#Broadcast that will be send when the player won an item.
   broadcast: Gratz! %PLAYER% won %AMOUNT% of %WONITEM%.
   
 

@@ -41,6 +41,7 @@ public class BlacklistHandler {
 	}
 
 	public boolean checkforblacklist(Material itemtocheck) {
+		this.reloadBlacklist();
 		boolean itemblacklisted = false;
 		List<String> blackitems = blacklist.getStringList("blacklist");
 		for (int i = 0; i < blackitems.size(); i++) {
@@ -48,6 +49,6 @@ public class BlacklistHandler {
 				itemblacklisted = true;
 		}
 
-		return true;
+		return itemblacklisted;
 	}
 }
