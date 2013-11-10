@@ -151,13 +151,15 @@ public class CommandExecutorClass implements CommandExecutor {
 					} else {
 						p.sendMessage(ChatColor.RED + denymessage);
 					}
-				} /*
-				 * else if (args.length == 1) { if (args[0] == "help") {
-				 * p.sendMessage(args[0] + ChatColor.YELLOW + "/lottery " +
-				 * ChatColor.WHITE + "Gives the player a random item, requires "
-				 * + Material.getMaterial(amounttopay) + " of " +
-				 * Material.getMaterial(itemtopay)); } }
-				 */
+				} else if (args.length == 1) {
+					if (args[0].equalsIgnoreCase("help")) {
+						p.sendMessage(ChatColor.YELLOW + "/lottery "
+								+ ChatColor.WHITE
+								+ "Gives the player a random item, requires "
+								+ amounttopay + " of "
+								+ new ItemStack(itemtopay).getType());
+					}
+				}
 			}
 
 		}
