@@ -12,16 +12,16 @@ import org.bukkit.inventory.ItemStack;
 public class LotteryHandler {
 	
 	MinecraftLottery lottery;
-	Player p;
+
 	SQLitehandler sqlitehandler;
 	
-	public LotteryHandler(MinecraftLottery lottery, Player p, SQLitehandler sqlitehandler) {
+	public LotteryHandler(MinecraftLottery lottery, SQLitehandler sqlitehandler) {
 		this.lottery = lottery;
-		this.p = p;
+
 		this.sqlitehandler = sqlitehandler;
 	}
 
-	public void runLottery(){
+	public void runLottery(Player p){
 		PlayerMessageReplacer messagereplacer = new PlayerMessageReplacer(lottery);
 		WhitelistHandler whitelisthandler = new WhitelistHandler(lottery);
 		

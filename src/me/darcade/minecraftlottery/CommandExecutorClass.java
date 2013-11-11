@@ -37,13 +37,13 @@ public class CommandExecutorClass implements CommandExecutor {
 			}
 
 			Player p = (Player) sender;
+			LotteryHandler lotteryhandler = new LotteryHandler(lottery, sqlitehandler);
 
-
-			if (p.hasPermission("lottery")) {
+			if (p.hasPermission("lottery") || p.hasPermission("lottery.admin")) {
 
 				if (args.length == 0) {
-					LotteryHandler lotteryhandler = new LotteryHandler(lottery, p, sqlitehandler);
-					lotteryhandler.runLottery();
+
+					lotteryhandler.runLottery(p);
 					
 				} else if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("help")) {
@@ -56,6 +56,9 @@ public class CommandExecutorClass implements CommandExecutor {
 					else if(args[0].equalsIgnoreCase("reload")) {
 						if(p.hasPermission("lottery.reload"))
 							lottery.reload(p);
+					}
+					else if (p.hasPermission("lottery.admin")){
+						lotteryhandler.runLottery(lottery.getServer().getPlayer(args[0]));
 					}
 				}
 			}
