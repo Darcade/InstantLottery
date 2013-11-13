@@ -3,6 +3,9 @@
 #DO NOT TOUCH 
 config-version: 2
 
+#Set to false if you don't want to let the plugin check for updates.
+checkforupdate: true
+
 #Maximum count of items you can win
 max-price: 10
 
@@ -36,3 +39,5 @@ itemlist: blacklist
 
 #Broadcast when someone win's an item
 do-broadcast: true
+
+

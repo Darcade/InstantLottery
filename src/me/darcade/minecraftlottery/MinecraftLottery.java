@@ -30,7 +30,9 @@ public class MinecraftLottery extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.checkVersion();
+
+		if (this.getConfig().getBoolean("checkforupdate"))
+			this.checkVersion();
 
 		// setup SQLite database and
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
@@ -54,21 +56,21 @@ public class MinecraftLottery extends JavaPlugin {
 		whitelisthandler.reloadWhitelist();
 		blacklisthandler.saveDefaultBlacklist();
 		blacklisthandler.reloadBlacklist();
-		
+
 		getCommand("lottery").setExecutor(
 				new CommandExecutorClass(this, sqlitehandler));
 
 		checkConfigVersion();
 
 		this.createConfig();
-		
+
 		System.out.println("[MinecraftLottery] MinecraftLottery Version: "
 				+ descFile.getVersion() + " enabled");
 	}
 
 	private void createConfig() {
 		this.saveDefaultConfig();
-		//System.out.println("[MinecraftLottery] Checking config...");
+		// System.out.println("[MinecraftLottery] Checking config...");
 	}
 
 	private void checkConfigVersion() {
@@ -94,18 +96,23 @@ public class MinecraftLottery extends JavaPlugin {
 	}
 
 	private void checkVersion() {
-		UpdateChecker updatechecker = new UpdateChecker();
+		UpdateChecker updatechecker = new UpdateChecker(64258);
 
-		if (!this.getDescription().getVersion()
-				.equalsIgnoreCase(updatechecker.checkversion())) {
+		String[] newestversion = updatechecker.query();
+
+		int localversion = new Integer(this.getDescription().getVersion()
+				.replaceAll("[.]", ""));
+		int latestversion = new Integer(newestversion[0].replaceAll("[.]", ""));
+
+		if (localversion < latestversion) {
 			System.out
 					.println("[MinecraftLottery] There is a new update for MinecraftLottery!");
 			System.out.println("[MinecraftLottery] Download it here "
-					+ updatechecker.getDownload());
+					+ newestversion[1]);
 		}
 	}
 
-	public void reload(Player p){
+	public void reload(Player p) {
 		p.sendMessage(ChatColor.GRAY + "reloading...");
 		this.reloadConfig();
 		whitelisthandler.reloadWhitelist();

@@ -57,9 +57,10 @@ public class CommandExecutorClass implements CommandExecutor {
 						if(p.hasPermission("lottery.reload"))
 							lottery.reload(p);
 					}
-					else if (p.hasPermission("lottery.admin")){
+					/*else {//if (p.hasPermission("lottery.admin")){
 						lotteryhandler.runLottery(lottery.getServer().getPlayer(args[0]));
-					}
+						p.sendMessage("Lottery has been send.");
+					}*/
 				}
 			}
 
