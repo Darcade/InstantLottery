@@ -35,11 +35,9 @@ public class CommandExecutorClass implements CommandExecutor {
 
 		// init what we need
 
-
-		Material itemtopay = Material.valueOf(lottery.getConfig().getString("itemtopay"));
+		Material itemtopay = Material.valueOf(lottery.getConfig().getString(
+				"itemtopay"));
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
-
-
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
 			if (!(sender instanceof Player)) {
@@ -48,14 +46,15 @@ public class CommandExecutorClass implements CommandExecutor {
 			}
 
 			Player p = (Player) sender;
-			LotteryHandler lotteryhandler = new LotteryHandler(lottery, sqlitehandler);
+			LotteryHandler lotteryhandler = new LotteryHandler(lottery,
+					sqlitehandler);
 
 			if (p.hasPermission("lottery") || p.hasPermission("lottery.admin")) {
 
 				if (args.length == 0) {
 
 					lotteryhandler.runLottery(p);
-					
+
 				} else if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("help")) {
 						p.sendMessage(ChatColor.YELLOW + "/lottery "
@@ -63,17 +62,30 @@ public class CommandExecutorClass implements CommandExecutor {
 								+ "Gives the player a random item, requires "
 								+ amounttopay + " of "
 								+ new ItemStack(itemtopay).getType());
-					}
-					else if(args[0].equalsIgnoreCase("reload")) {
-						if(p.hasPermission("lottery.reload"))
+					} else if (args[0].equalsIgnoreCase("reload")) {
+						if (p.hasPermission("lottery.reload"))
 							lottery.reload(p);
-					}
-					else if(p.hasPermission("lottery.admin")){
-						if(checkforuser(args[0])) {
-							lotteryhandler.runLottery(lottery.getServer().getPlayer(args[0]));
-							p.sendMessage(ChatColor.GREEN + "Lottery has been send.");
+					} else if (p.hasPermission("lottery.admin")) {
+						if (checkforuser(args[0])) {
+							lotteryhandler.runLottery(lottery.getServer()
+									.getPlayer(args[0]));
+							p.sendMessage(ChatColor.GREEN
+									+ "Lottery has been send.");
 						} else {
-							p.sendMessage(ChatColor.RED + "The user doesn't exist.");
+							p.sendMessage(ChatColor.RED
+									+ "The user doesn't exist.");
+						}
+					}
+				} else if (args.length == 2) {
+					if (p.hasPermission("lottery.admin")) {
+						if (checkforuser(args[0]) && args[1].equalsIgnoreCase("force")) {
+							lotteryhandler.runLottery(lottery.getServer()
+									.getPlayer(args[0]));
+							p.sendMessage(ChatColor.GREEN
+									+ "Lottery has been send.");
+						} else {
+							p.sendMessage(ChatColor.RED
+									+ "The user doesn't exist.");
 						}
 					}
 				}
