@@ -6,6 +6,10 @@ config-version: 2
 #Set to false if you don't want to let the plugin check for updates.
 checkforupdate: true
 
+#Allow the lottery, only once a day
+#Note if you disable it the player will be able to do as many lottery's, as he wants.
+once-a-day: true
+
 #Maximum count of items you can win
 max-price: 10
 

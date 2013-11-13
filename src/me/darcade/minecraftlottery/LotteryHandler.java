@@ -38,6 +38,7 @@ public class LotteryHandler {
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
 
 		boolean dobroadcast = lottery.getConfig().getBoolean("do-broadcast");
+		boolean onceaday = lottery.getConfig().getBoolean("once-a-day");
 
 		Calendar ca1 = Calendar.getInstance();
 
@@ -49,7 +50,7 @@ public class LotteryHandler {
 		String username = p.getDisplayName();
 		int lastlottery = sqlitehandler.lastlottery(username);
 
-		if (DAY_OF_YEAR != lastlottery) {
+		if (DAY_OF_YEAR != lastlottery || !onceaday) {
 			if (p.getInventory().containsAtLeast(payitem, amounttopay)) {
 
 				p.getInventory().removeItem(payitem);
