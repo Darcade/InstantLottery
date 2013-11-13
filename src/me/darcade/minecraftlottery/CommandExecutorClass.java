@@ -67,10 +67,28 @@ public class CommandExecutorClass implements CommandExecutor {
 							lottery.reload(p);
 					} else if (p.hasPermission("lottery.admin")) {
 						if (checkforuser(args[0])) {
-							lotteryhandler.runLottery(lottery.getServer()
-									.getPlayer(args[0]));
-							p.sendMessage(ChatColor.GREEN
-									+ "Lottery has been send.");
+							int lotteryreturn = lotteryhandler
+									.runLottery(lottery.getServer().getPlayer(
+											args[0]));
+							switch (lotteryreturn) {
+							case (0):
+								p.sendMessage(ChatColor.GREEN
+										+ "Lottery has been send.");
+								break;
+							case (1):
+								p.sendMessage(ChatColor.RED
+										+ "The player has no more "
+										+ itemtopay.toString() + ".");
+								p.sendMessage(ChatColor.RED
+										+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
+								break;
+							case (2):
+								p.sendMessage(ChatColor.RED
+										+ "The player already had lottery today.");
+								p.sendMessage(ChatColor.RED
+										+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
+								break;
+							}
 						} else {
 							p.sendMessage(ChatColor.RED
 									+ "The user doesn't exist.");
@@ -78,8 +96,9 @@ public class CommandExecutorClass implements CommandExecutor {
 					}
 				} else if (args.length == 2) {
 					if (p.hasPermission("lottery.admin")) {
-						if (checkforuser(args[0]) && args[1].equalsIgnoreCase("force")) {
-							lotteryhandler.runLottery(lottery.getServer()
+						if (checkforuser(args[0])
+								&& args[1].equalsIgnoreCase("force")) {
+							lotteryhandler.forceLottery(lottery.getServer()
 									.getPlayer(args[0]));
 							p.sendMessage(ChatColor.GREEN
 									+ "Lottery has been send.");

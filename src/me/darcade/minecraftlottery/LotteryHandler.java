@@ -21,7 +21,13 @@ public class LotteryHandler {
 		this.sqlitehandler = sqlitehandler;
 	}
 
-	public void runLottery(Player p) {
+	public int runLottery(Player p) {
+		/* 0: all ok
+		 * 1: no more item
+		 * 2: already had lottery
+		 */
+		int output;
+		
 		PlayerMessageReplacer messagereplacer = new PlayerMessageReplacer(
 				lottery);
 		WhitelistHandler whitelisthandler = new WhitelistHandler(lottery);
@@ -48,9 +54,9 @@ public class LotteryHandler {
 
 				p.getInventory().removeItem(payitem);
 
-				int output = sqlitehandler.lastlottery(username);
+				int dboutput = sqlitehandler.lastlottery(username);
 
-				if (output == 0) {
+				if (dboutput == 0) {
 					sqlitehandler.setnewlastlottery(username, DAY_OF_YEAR);
 				} else {
 					sqlitehandler.setlastlottery(username, DAY_OF_YEAR);
@@ -71,23 +77,28 @@ public class LotteryHandler {
 					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 						if (player != p) {
 							player.sendMessage(ChatColor.GREEN
-									+ messagereplacer.getbroadcast(player,
+									+ messagereplacer.getbroadcast(p,
 											randomAmount, wonitem, payitem));
 						}
 					}
 				}
+				
+				output = 0;
 
 			}
 
 			else {
 				p.sendMessage(ChatColor.RED
 						+ messagereplacer.getnoitem(p, payitem));
+				output = 1;
 			}
 
 		} else {
 			p.sendMessage(ChatColor.RED
 					+ messagereplacer.getdenymessage(p, payitem));
+			output = 2;
 		}
+		return output;
 	}
 
 	public void forceLottery(Player p) {
@@ -134,7 +145,7 @@ public class LotteryHandler {
 			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 				if (player != p) {
 					player.sendMessage(ChatColor.GREEN
-							+ messagereplacer.getbroadcast(player,
+							+ messagereplacer.getbroadcast(p,
 									randomAmount, wonitem, payitem));
 				}
 			}
