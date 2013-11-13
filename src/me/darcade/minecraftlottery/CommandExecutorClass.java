@@ -1,5 +1,6 @@
 package me.darcade.minecraftlottery;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -17,6 +18,16 @@ public class CommandExecutorClass implements CommandExecutor {
 			SQLitehandler sqlitehandler) {
 		this.lottery = lottery;
 		this.sqlitehandler = sqlitehandler;
+	}
+
+	private boolean checkforuser(String username) {
+		boolean output = false;
+		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+			if (player.getDisplayName().equalsIgnoreCase(username)) {
+				output = true;
+			}
+		}
+		return output;
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd,
@@ -57,15 +68,18 @@ public class CommandExecutorClass implements CommandExecutor {
 						if(p.hasPermission("lottery.reload"))
 							lottery.reload(p);
 					}
-					/*else {//if (p.hasPermission("lottery.admin")){
-						lotteryhandler.runLottery(lottery.getServer().getPlayer(args[0]));
-						p.sendMessage("Lottery has been send.");
-					}*/
+					else if(p.hasPermission("lottery.admin")){
+						if(checkforuser(args[0])) {
+							lotteryhandler.runLottery(lottery.getServer().getPlayer(args[0]));
+							p.sendMessage(ChatColor.GREEN + "Lottery has been send.");
+						} else {
+							p.sendMessage(ChatColor.RED + "The user doesn't exist.");
+						}
+					}
 				}
 			}
 
 		}
 		return true;
 	}
-
 }

@@ -114,9 +114,11 @@ public class MinecraftLottery extends JavaPlugin {
 
 	public void reload(Player p) {
 		p.sendMessage(ChatColor.GRAY + "reloading...");
+		System.out.println("[MinecraftLottery] reloading ...");
 		this.reloadConfig();
 		whitelisthandler.reloadWhitelist();
 		blacklisthandler.reloadBlacklist();
 		p.sendMessage(ChatColor.GRAY + "reload finished.");
+		System.out.println("[MinecraftLottery] reload finished.");
 	}
 }
