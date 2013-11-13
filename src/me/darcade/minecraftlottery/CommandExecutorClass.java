@@ -57,11 +57,29 @@ public class CommandExecutorClass implements CommandExecutor {
 
 				} else if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("help")) {
-						p.sendMessage(ChatColor.YELLOW + "/lottery "
-								+ ChatColor.WHITE
-								+ "Gives the player a random item, requires "
-								+ amounttopay + " of "
-								+ new ItemStack(itemtopay).getType());
+						if (p.hasPermission("lottery.admin")) {
+							p.sendMessage(ChatColor.YELLOW
+									+ "/lottery "
+									+ ChatColor.WHITE
+									+ "Gives the player a random item, requires "
+									+ amounttopay + " of "
+									+ new ItemStack(itemtopay).getType());
+							p.sendMessage(ChatColor.YELLOW
+									+ "/lottery"
+									+ ChatColor.GRAY
+									+ " USERNAME [force] "
+									+ ChatColor.WHITE
+									+ "As an admin you can execute the lottery for other players. Use the arg "
+									+ ChatColor.BOLD + "force"
+									+ ChatColor.WHITE + ", to force it.");
+						} else {
+							p.sendMessage(ChatColor.YELLOW
+									+ "/lottery "
+									+ ChatColor.WHITE
+									+ "Gives the player a random item, requires "
+									+ amounttopay + " of "
+									+ new ItemStack(itemtopay).getType());
+						}
 					} else if (args[0].equalsIgnoreCase("reload")) {
 						if (p.hasPermission("lottery.reload"))
 							lottery.reload(p);
