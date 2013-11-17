@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerMessageReplacer {
 
-	String denymessage, allowmessage, noitem, broadcast;
+	String denymessage, allowmessage, noitem, broadcast, morespace;
 	MinecraftLottery lottery;
 
 	public PlayerMessageReplacer(MinecraftLottery lottery) {
@@ -15,6 +15,7 @@ public class PlayerMessageReplacer {
 		this.allowmessage = lottery.getConfig().getString("Message.allow");
 		this.noitem = lottery.getConfig().getString("Message.noitem");
 		this.broadcast = lottery.getConfig().getString("Message.broadcast");
+		this.morespace = lottery.getConfig().getString("Message.morespace");
 
 	}
 
@@ -46,5 +47,11 @@ public class PlayerMessageReplacer {
 				.replaceAll("%AMOUNT%", String.valueOf(randomAmount))
 				.replaceAll("%PAYITEM%", payitem.getType().toString())
 				.replaceAll("%WONITEM%", wonitem.getType().toString());
+	}
+	
+	public String getmorespace(Player p, ItemStack payitem) {
+		return morespace
+				.replaceAll("%PLAYER%", p.getDisplayName())
+				.replaceAll("%PAYITEM%", payitem.getType().toString());
 	}
 }

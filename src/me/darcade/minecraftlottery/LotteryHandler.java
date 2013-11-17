@@ -25,6 +25,7 @@ public class LotteryHandler {
 		/* 0: all ok
 		 * 1: no more item
 		 * 2: already had lottery
+		 * 3: no more space in the inventory
 		 */
 		int output;
 		
@@ -49,7 +50,11 @@ public class LotteryHandler {
 
 		String username = p.getDisplayName();
 		int lastlottery = sqlitehandler.lastlottery(username);
-
+		if (p.getInventory().firstEmpty() == -1){
+			p.sendMessage(ChatColor.RED + messagereplacer.getmorespace(p, payitem));
+			return 3;
+		}
+		
 		if (DAY_OF_YEAR != lastlottery || !onceaday) {
 			if (p.getInventory().containsAtLeast(payitem, amounttopay)) {
 

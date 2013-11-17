@@ -69,6 +69,12 @@ public class CommandExecutorClass implements CommandExecutor {
 							sender.sendMessage(ChatColor.RED
 									+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
 							break;
+						case (3):
+							sender.sendMessage(ChatColor.RED
+									+ "The player has no more space in the inventory.");
+							sender.sendMessage(ChatColor.RED
+									+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
+							break;
 						}
 						return true;
 					} else {
@@ -151,6 +157,12 @@ public class CommandExecutorClass implements CommandExecutor {
 							case (2):
 								p.sendMessage(ChatColor.RED
 										+ "The player already had lottery today.");
+								p.sendMessage(ChatColor.RED
+										+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
+								break;
+							case (3):
+								p.sendMessage(ChatColor.RED
+										+ "The player has no more space in the inventory.");
 								p.sendMessage(ChatColor.RED
 										+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
 								break;

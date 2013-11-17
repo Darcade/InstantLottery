@@ -1,7 +1,7 @@
 #Config for MinecraftLottery Plugin
 
 #DO NOT TOUCH 
-config-version: 2
+config-version: 3
 
 #Set to false if you don't want to let the plugin check for updates.
 checkforupdate: true
@@ -27,6 +27,8 @@ Message:
 #Broadcast that will be send when the player won an item.
   broadcast: Gratz! %PLAYER% won %AMOUNT% of %WONITEM%.
   
+#Message when the player needs more space in the inventory.  
+  morespace: You need more space in your inventory.
 
 #Name of the Item that is used to pay
 #WARNING: Item ID's wont work!
