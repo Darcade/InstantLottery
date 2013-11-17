@@ -35,31 +35,67 @@ public class CommandExecutorClass implements CommandExecutor {
 
 		// init what we need
 
+		LotteryHandler lotteryhandler = new LotteryHandler(lottery,
+				sqlitehandler);
+
 		Material itemtopay = Material.valueOf(lottery.getConfig().getString(
 				"itemtopay"));
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
 			if (!(sender instanceof Player)) {
-				if(args.length >= 1) {
-					if(args[0].equalsIgnoreCase("reload")){
+				if (args.length == 1) {
+					if (args[0].equalsIgnoreCase("reload")) {
 						lottery.reload(null);
+						return true;
+					} else if (checkforuser(args[0])) {
+						int lotteryreturn = lotteryhandler.runLottery(lottery
+								.getServer().getPlayer(args[0]));
+						switch (lotteryreturn) {
+						case (0):
+							sender.sendMessage(ChatColor.GREEN
+									+ "Lottery has been send.");
+							break;
+						case (1):
+							sender.sendMessage(ChatColor.RED
+									+ "The player has no more "
+									+ itemtopay.toString() + ".");
+							sender.sendMessage(ChatColor.RED
+									+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
+							break;
+						case (2):
+							sender.sendMessage(ChatColor.RED
+									+ "The player already had lottery today.");
+							sender.sendMessage(ChatColor.RED
+									+ "If you want you can execute '/lottery USERNAME force', to give him the lottery anyway.");
+							break;
+						}
+						return true;
+					} else {
+						sender.sendMessage(ChatColor.RED
+								+ "The user doesn't exist.");
+						return true;
 					}
-					/*else if (checkforuser(args[0])){
-						
+
+				} else if (args.length == 2) {
+					if (checkforuser(args[0])
+							&& args[1].equalsIgnoreCase("force")) {
+						lotteryhandler.forceLottery(lottery.getServer()
+								.getPlayer(args[0]));
+						sender.sendMessage(ChatColor.GREEN
+								+ "Lottery has been send.");
+					} else {
+						sender.sendMessage(ChatColor.RED
+								+ "The user doesn't exist.");
 					}
-					else {
-						sender.sendMessage("The required user does not exist!");
-					}*/
-				
+					return true;
 				}
-				sender.sendMessage("Usage: lottery reload");
+				sender.sendMessage("Usage: 'lottery reload' to reload the plugin");
+				sender.sendMessage("Usage: 'lottery USERNAME [force]' to do lottery for a specific user.");
 				return true;
 			}
 
 			Player p = (Player) sender;
-			LotteryHandler lotteryhandler = new LotteryHandler(lottery,
-					sqlitehandler);
 
 			if (p.hasPermission("lottery") || p.hasPermission("lottery.admin")) {
 
