@@ -41,8 +41,20 @@ public class CommandExecutorClass implements CommandExecutor {
 
 		if (cmd.getName().equalsIgnoreCase("lottery")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("This command can only be runned by a player!");
-				return false;
+				if(args.length >= 1) {
+					if(args[0].equalsIgnoreCase("reload")){
+						lottery.reload(null);
+					}
+					/*else if (checkforuser(args[0])){
+						
+					}
+					else {
+						sender.sendMessage("The required user does not exist!");
+					}*/
+				
+				}
+				sender.sendMessage("Usage: lottery reload");
+				return true;
 			}
 
 			Player p = (Player) sender;
