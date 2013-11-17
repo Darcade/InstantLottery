@@ -42,7 +42,7 @@ public class LotteryHandler {
 		boolean onceaday = lottery.getConfig().getBoolean("once-a-day");
 
 		Calendar ca1 = Calendar.getInstance();
-
+		
 		// Item to pay
 		ItemStack payitem = new ItemStack(itemtopay, amounttopay);
 

@@ -7,4 +7,4 @@ commands:
      lottery:
           description: Gives the player executing the command a random item. Admins can execute the lottery for other players by typing /lottery USERNAME [force]
           usage: /<command> [USERNAME [force]]
-          permission: lottery 
+          permission: minecraftlottery 

@@ -103,7 +103,7 @@ public class CommandExecutorClass implements CommandExecutor {
 
 			Player p = (Player) sender;
 
-			if (p.hasPermission("lottery") || p.hasPermission("lottery.admin")) {
+			if (p.hasPermission("minecraftlottery") || p.hasPermission("minecraftlottery.admin")) {
 
 				if (args.length == 0) {
 
@@ -111,7 +111,7 @@ public class CommandExecutorClass implements CommandExecutor {
 
 				} else if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("help")) {
-						if (p.hasPermission("lottery.admin")) {
+						if (p.hasPermission("minecraftlottery.admin")) {
 							p.sendMessage(ChatColor.YELLOW
 									+ "/lottery "
 									+ ChatColor.WHITE
@@ -135,9 +135,9 @@ public class CommandExecutorClass implements CommandExecutor {
 									+ new ItemStack(itemtopay).getType());
 						}
 					} else if (args[0].equalsIgnoreCase("reload")) {
-						if (p.hasPermission("lottery.reload"))
+						if (p.hasPermission("minecraftlottery.reload"))
 							lottery.reload(p);
-					} else if (p.hasPermission("lottery.admin")) {
+					} else if (p.hasPermission("minecraftlottery.admin")) {
 						if (checkforuser(args[0])) {
 							int lotteryreturn = lotteryhandler
 									.runLottery(lottery.getServer().getPlayer(
@@ -173,7 +173,7 @@ public class CommandExecutorClass implements CommandExecutor {
 						}
 					}
 				} else if (args.length == 2) {
-					if (p.hasPermission("lottery.admin")) {
+					if (p.hasPermission("minecraftlottery.admin")) {
 						if (checkforuser(args[0])
 								&& args[1].equalsIgnoreCase("force")) {
 							lotteryhandler.forceLottery(lottery.getServer()
