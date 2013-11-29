@@ -29,6 +29,7 @@ public class LotteryHandler {
 		 */
 		int output;
 		
+		TimeChecker timechecker = new TimeChecker();
 		PlayerMessageReplacer messagereplacer = new PlayerMessageReplacer(
 				lottery);
 		WhitelistHandler whitelisthandler = new WhitelistHandler(lottery);
@@ -37,36 +38,37 @@ public class LotteryHandler {
 		Material itemtopay = Material.valueOf(lottery.getConfig().getString(
 				"itemtopay"));
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
-
+		int distance = lottery.getConfig().getInt("distance");
+		
 		boolean dobroadcast = lottery.getConfig().getBoolean("do-broadcast");
-		boolean onceaday = lottery.getConfig().getBoolean("once-a-day");
 
 		Calendar ca1 = Calendar.getInstance();
 		
 		// Item to pay
 		ItemStack payitem = new ItemStack(itemtopay, amounttopay);
 
-		int DAY_OF_YEAR = ca1.get(Calendar.DAY_OF_YEAR);
-
 		String username = p.getDisplayName();
-		int lastlottery = sqlitehandler.lastlottery(username);
+		int lastlottery = sqlitehandler.getlastlottery(username);
+		int lastlotteryyear = sqlitehandler.getlastlotteryyear(username);
+		
 		if (p.getInventory().firstEmpty() == -1){
 			p.sendMessage(ChatColor.RED + messagereplacer.getmorespace(p, payitem));
 			return 3;
 		}
 		
-		if (DAY_OF_YEAR != lastlottery || !onceaday) {
+		if (timechecker.candolottery(lastlottery, lastlotteryyear, distance) || distance == 0) {
 			if (p.getInventory().containsAtLeast(payitem, amounttopay)) {
 
 				p.getInventory().removeItem(payitem);
 
-				int dboutput = sqlitehandler.lastlottery(username);
+				int dboutput = sqlitehandler.getlastlottery(username);
 
 				if (dboutput == 0) {
-					sqlitehandler.setnewlastlottery(username, DAY_OF_YEAR);
+					sqlitehandler.setnewlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
 				} else {
-					sqlitehandler.setlastlottery(username, DAY_OF_YEAR);
+					sqlitehandler.setlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
 				}
+
 
 				Material randomitem = whitelisthandler.getRandomItem();
 				int randomAmount = new Random().nextInt(maxprice) + 1;
@@ -108,6 +110,7 @@ public class LotteryHandler {
 	}
 
 	public void forceLottery(Player p) {
+		TimeChecker timechecker = new TimeChecker();
 		PlayerMessageReplacer messagereplacer = new PlayerMessageReplacer(
 				lottery);
 		WhitelistHandler whitelisthandler = new WhitelistHandler(lottery);
@@ -124,16 +127,14 @@ public class LotteryHandler {
 		// Item to pay
 		ItemStack payitem = new ItemStack(itemtopay, amounttopay);
 		
-		int DAY_OF_YEAR = ca1.get(Calendar.DAY_OF_YEAR);
-
 		String username = p.getDisplayName();
 		
-		int output = sqlitehandler.lastlottery(username);
+		int output = sqlitehandler.getlastlottery(username);
 
 		if (output == 0) {
-			sqlitehandler.setnewlastlottery(username, DAY_OF_YEAR);
+			sqlitehandler.setnewlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
 		} else {
-			sqlitehandler.setlastlottery(username, DAY_OF_YEAR);
+			sqlitehandler.setlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
 		}
 
 		Material randomitem = whitelisthandler.getRandomItem();

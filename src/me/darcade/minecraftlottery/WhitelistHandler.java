@@ -22,12 +22,12 @@ public class WhitelistHandler {
 
 	public void saveDefaultWhitelist() {
 		if (!new File(minecraftlottery.getDataFolder(), filename).exists()) {
-			System.out.println("Whitelist: "
+			/*System.out.println("Whitelist: "
 					+ new File(minecraftlottery.getDataFolder(), filename)
 							.toString()
 					+ "Existert:"
 					+ new File(minecraftlottery.getDataFolder(), filename)
-							.exists());
+							.exists());*/
 			minecraftlottery.saveResource(filename, false);
 		}
 	}

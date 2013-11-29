@@ -19,12 +19,12 @@ public class BlacklistHandler {
 
 	public void saveDefaultBlacklist() {
 		if (!new File(minecraftlottery.getDataFolder(), filename).exists()) {
-			System.out.println("Blacklist: "
+			/*System.out.println("Blacklist: "
 					+ new File(minecraftlottery.getDataFolder(), filename)
 							.toString()
 					+ "Existert:"
 					+ new File(minecraftlottery.getDataFolder(), filename)
-							.exists());
+							.exists());*/
 			minecraftlottery.saveResource(filename, false);
 		}
 	}

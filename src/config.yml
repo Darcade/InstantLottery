@@ -1,14 +1,16 @@
 #Config for MinecraftLottery Plugin
 
 #DO NOT TOUCH 
-config-version: 3
+config-version: 4
+database-version: 1
 
 #Set to false if you don't want to let the plugin check for updates.
 checkforupdate: true
 
-#Allow the lottery, only once a day
-#Note if you disable it the player will be able to do as many lottery's, as he wants.
-once-a-day: true
+#Distance in minutes between lottery
+#set to 0 to allow the user to do as many lottery's as he wants.
+#HOUR: 60 min, DAY: 1440 min
+distance: 1440 #Minutes 
 
 #Maximum count of items you can win
 max-price: 10

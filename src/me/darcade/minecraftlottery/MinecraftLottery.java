@@ -60,8 +60,10 @@ public class MinecraftLottery extends JavaPlugin {
 		getCommand("lottery").setExecutor(
 				new CommandExecutorClass(this, sqlitehandler));
 
-		checkConfigVersion();
-
+		this.checkDatabaseVersion();
+		this.checkConfigVersion();
+		
+		
 		this.createConfig();
 
 		System.out.println("[MinecraftLottery] MinecraftLottery Version: "
@@ -83,18 +85,40 @@ public class MinecraftLottery extends JavaPlugin {
 		String localversion = this.getConfig().getString("config-version");
 
 		if (!latestversion.equalsIgnoreCase(localversion) && oldconfig.exists()) {
-			log.warning("[MinecraftLottery] The config is not up to date moving it to config_old.yml, and creating a new one.");
+			log.warning("[MinecraftLottery] The config is not up to date moving it to 'config_old.yml', and creating a new one.");
 
 			if (!movedconfig.exists()) {
 				oldconfig.renameTo(movedconfig);
 			} else {
 				System.err
-						.println("[MinecraftLottery] Please first remove the old config called \"config_old.yml\", and then restart the server.");
+						.println("[MinecraftLottery] Please first remove the old config called 'config_old.yml\', and then restart the server.");
 			}
 
 		}
 	}
 
+	private void checkDatabaseVersion() {
+
+		File olddatabase = new File(this.getDataFolder() + "/database.sqlite");
+		File moveddatabase = new File(this.getDataFolder() + "/database_old.sqlite");
+
+		String latestversion = YamlConfiguration.loadConfiguration(
+				this.getResource("config.yml")).getString("database-version");
+		String localversion = this.getConfig().getString("database-version");
+
+		if (!latestversion.equalsIgnoreCase(localversion) && olddatabase.exists() || latestversion.isEmpty() && olddatabase.exists()) {
+			log.warning("[MinecraftLottery] The database is not up to date moving it to 'database_old.sqlite', and creating a new one.");
+
+			if (!moveddatabase.exists()) {
+				olddatabase.renameTo(moveddatabase);
+			} else {
+				System.err
+						.println("[MinecraftLottery] Please first remove the old config called 'database_old.sqlite', and then restart the server.");
+			}
+
+		}
+	}
+	
 	private void checkVersion() {
 		UpdateChecker updatechecker = new UpdateChecker(64258);
 
