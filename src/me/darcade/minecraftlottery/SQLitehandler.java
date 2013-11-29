@@ -19,7 +19,7 @@ public class SQLitehandler extends JavaPlugin {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection(databasedir);
-			//System.out.println("[MinecraftLottery] Opened Database successfully");
+			// System.out.println("[MinecraftLottery] Opened Database successfully");
 
 			stmt = c.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, lastlotteryyear NUMERIC ,PRIMARY KEY(username));";
@@ -27,7 +27,7 @@ public class SQLitehandler extends JavaPlugin {
 			stmt.executeUpdate(sql);
 			stmt.close();
 			c.close();
-			//System.out.println("[MinecraftLottery] Table successfully created");
+			// System.out.println("[MinecraftLottery] Table successfully created");
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(1);
@@ -95,8 +95,9 @@ public class SQLitehandler extends JavaPlugin {
 		}
 		return result;
 	}
-	
-	public void setlastlottery(String username, int lastlottery, int lastlotteryyear) {
+
+	public void setlastlottery(String username, int lastlottery,
+			int lastlotteryyear) {
 		Connection c = null;
 		Statement stmt = null;
 
@@ -106,8 +107,9 @@ public class SQLitehandler extends JavaPlugin {
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
 
-			String sql = "UPDATE lotterytable SET lastlottery=\'" + lastlottery
-					+ "\' WHERE username=\"" + username + "\";";
+			String sql = "UPDATE lotterytable SET lastlottery='" + lastlottery
+					+ "', lastlotteryyear='" + lastlotteryyear
+					+ "' WHERE username='" + username + "';";
 
 			stmt.executeUpdate(sql);
 
@@ -119,7 +121,8 @@ public class SQLitehandler extends JavaPlugin {
 		}
 	}
 
-	public void setnewlastlottery(String username, int lastlottery, int lastlotteryyear) {
+	public void setnewlastlottery(String username, int lastlottery,
+			int lastlotteryyear) {
 		Connection c = null;
 		Statement stmt = null;
 
@@ -131,7 +134,12 @@ public class SQLitehandler extends JavaPlugin {
 
 			// TODO prevent SQL Injections
 			String sql = "INSERT INTO lotterytable (username, lastlottery, lastlotteryyear) VALUES('"
-					+ username + "', " + lastlottery + "', " + lastlotteryyear +");";
+					+ username
+					+ "', "
+					+ lastlottery
+					+ ", "
+					+ lastlotteryyear
+					+ ");";
 
 			stmt.executeUpdate(sql);
 
