@@ -22,12 +22,12 @@ public class WhitelistHandler {
 
 	public void saveDefaultWhitelist() {
 		if (!new File(minecraftlottery.getDataFolder(), filename).exists()) {
-			/*System.out.println("Whitelist: "
-					+ new File(minecraftlottery.getDataFolder(), filename)
-							.toString()
-					+ "Existert:"
-					+ new File(minecraftlottery.getDataFolder(), filename)
-							.exists());*/
+			/*
+			 * System.out.println("Whitelist: " + new
+			 * File(minecraftlottery.getDataFolder(), filename) .toString() +
+			 * "Existert:" + new File(minecraftlottery.getDataFolder(),
+			 * filename) .exists());
+			 */
 			minecraftlottery.saveResource(filename, false);
 		}
 	}
@@ -45,12 +45,19 @@ public class WhitelistHandler {
 
 	public Material getRandomItem() {
 		Material wonitem = null;
+		ColorChecker colorchecker = new ColorChecker(minecraftlottery);
 		if (minecraftlottery.getConfig().getString("itemlist")
 				.equalsIgnoreCase("whitelist")) {
 			List<String> whitelistitems = whitelist.getStringList("whitelist");
 
 			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
-			wonitem = Material.valueOf(whitelistitems.get(randomNum));
+			String item = whitelistitems.get(randomNum);
+			// Check for color
+			if (colorchecker.checkforcolor(item)) {
+				// REPLACECOLOR
+			} else {
+				wonitem = Material.valueOf(item);
+			}
 		} else if (minecraftlottery.getConfig().getString("itemlist")
 				.equalsIgnoreCase("blacklist")) {
 			List<String> whitelistitems = YamlConfiguration.loadConfiguration(
