@@ -7,6 +7,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
 //TODO use variable instead of creating every time a new object.
 public class WhitelistHandler {
@@ -43,20 +44,27 @@ public class WhitelistHandler {
 				minecraftlottery.getDataFolder(), filename));
 	}
 
-	public Material getRandomItem() {
-		Material wonitem = null;
+	public ItemStack getRandomItem() {
+		Material wonmaterial = null;
+		ItemStack wonitem = null;
+		int randomamount = new Random().nextInt(minecraftlottery.getConfig().getInt(
+				"max-price")) + 1;
 		ColorChecker colorchecker = new ColorChecker(minecraftlottery);
+		
+		this.reloadWhitelist();
+		
 		if (minecraftlottery.getConfig().getString("itemlist")
 				.equalsIgnoreCase("whitelist")) {
-			List<String> whitelistitems = whitelist.getStringList("whitelist");
+			List<String> whitelistitems = this.getWhitelist().getStringList("whitelist");
 
 			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
 			String item = whitelistitems.get(randomNum);
 			// Check for color
 			if (colorchecker.checkforcolor(item)) {
-				// REPLACECOLOR
+				wonitem = colorchecker.getColor(item);
 			} else {
-				wonitem = Material.valueOf(item);
+				wonmaterial = Material.valueOf(item);
+				wonitem = new ItemStack(wonmaterial, randomamount);
 			}
 		} else if (minecraftlottery.getConfig().getString("itemlist")
 				.equalsIgnoreCase("blacklist")) {
@@ -66,13 +74,14 @@ public class WhitelistHandler {
 
 			int whitelistlenght = whitelistitems.size();
 			int randomNum = new Random().nextInt(whitelistlenght);
-			wonitem = Material.valueOf(whitelistitems.get(randomNum));
+			wonmaterial = Material.valueOf(whitelistitems.get(randomNum));
 
 			while (new BlacklistHandler(minecraftlottery)
-					.checkforblacklist(wonitem)) {
+					.checkforblacklist(wonmaterial)) {
 				randomNum = new Random().nextInt(whitelistlenght);
-				wonitem = Material.valueOf(whitelistitems.get(randomNum));
+				wonmaterial = Material.valueOf(whitelistitems.get(randomNum));
 			}
+			wonitem = new ItemStack(wonmaterial, randomamount);
 		}
 		return wonitem;
 	}

@@ -1,7 +1,6 @@
 package me.darcade.minecraftlottery;
 
 import java.util.Calendar;
-import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,7 +33,6 @@ public class LotteryHandler {
 				lottery);
 		WhitelistHandler whitelisthandler = new WhitelistHandler(lottery);
 
-		int maxprice = lottery.getConfig().getInt("max-price");
 		Material itemtopay = Material.valueOf(lottery.getConfig().getString(
 				"itemtopay"));
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
@@ -70,14 +68,10 @@ public class LotteryHandler {
 				}
 
 
-				Material randomitem = whitelisthandler.getRandomItem();
-				int randomAmount = new Random().nextInt(maxprice) + 1;
-
-				// won item
-				ItemStack wonitem = new ItemStack(randomitem, randomAmount);
+				ItemStack wonitem = whitelisthandler.getRandomItem();
 
 				p.sendMessage(ChatColor.GREEN
-						+ messagereplacer.getallowmessage(p, randomAmount,
+						+ messagereplacer.getallowmessage(p, wonitem.getAmount(),
 								wonitem, payitem));
 				p.getInventory().addItem(wonitem);
 
@@ -86,7 +80,7 @@ public class LotteryHandler {
 						if (player != p) {
 							player.sendMessage(ChatColor.GREEN
 									+ messagereplacer.getbroadcast(p,
-											randomAmount, wonitem, payitem));
+											wonitem.getAmount(), wonitem, payitem));
 						}
 					}
 				}
@@ -115,7 +109,6 @@ public class LotteryHandler {
 				lottery);
 		WhitelistHandler whitelisthandler = new WhitelistHandler(lottery);
 
-		int maxprice = lottery.getConfig().getInt("max-price");
 		Material itemtopay = Material.valueOf(lottery.getConfig().getString(
 				"itemtopay"));
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
@@ -137,14 +130,10 @@ public class LotteryHandler {
 			sqlitehandler.setlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
 		}
 
-		Material randomitem = whitelisthandler.getRandomItem();
-		int randomAmount = new Random().nextInt(maxprice) + 1;
-
-		// won item
-		ItemStack wonitem = new ItemStack(randomitem, randomAmount);
+		ItemStack wonitem = whitelisthandler.getRandomItem();
 
 		p.sendMessage(ChatColor.GREEN
-				+ messagereplacer.getallowmessage(p, randomAmount, wonitem,
+				+ messagereplacer.getallowmessage(p, wonitem.getAmount(), wonitem,
 						payitem));
 		p.getInventory().addItem(wonitem);
 
@@ -153,7 +142,7 @@ public class LotteryHandler {
 				if (player != p) {
 					player.sendMessage(ChatColor.GREEN
 							+ messagereplacer.getbroadcast(p,
-									randomAmount, wonitem, payitem));
+									wonitem.getAmount(), wonitem, payitem));
 				}
 			}
 

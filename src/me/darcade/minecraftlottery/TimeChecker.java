@@ -17,7 +17,7 @@ public class TimeChecker {
 	public boolean candolottery(int lastlottery, int lastlotteryyear, int distance){
 		Calendar cal = Calendar.getInstance();
 		boolean output = false;
-		if (lastlotteryyear == cal.get(Calendar.YEAR) && lastlottery + distance <= this.getMinuteofYear())
+		if (lastlotteryyear == 0 || lastlotteryyear == cal.get(Calendar.YEAR) && lastlottery + distance <= this.getMinuteofYear())
 			output = true;
 		
 		//System.out.println("lastlottery: " + lastlottery);
