@@ -56,7 +56,7 @@ public class LotteryHandler {
 			return 3;
 		}
 		
-		if (!timechecker.candolottery(lastlottery, lastlotteryyear, distance) || distance == 0) {
+		if (timechecker.candolottery(lastlottery, lastlotteryyear, distance) || distance == 0) {
 			if (p.getInventory().containsAtLeast(payitem, amounttopay)) {
 
 				p.getInventory().removeItem(payitem);

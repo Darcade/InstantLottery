@@ -8,6 +8,8 @@ public class TimeChecker {
 		int MinuteofDay = (cal.get(Calendar.HOUR) * 60) + cal.get(Calendar.MINUTE);
 		int MinuteofYear = MinuteofDay * cal.get(Calendar.DAY_OF_MONTH) * cal.get(Calendar.MONTH);
 		
+		//System.out.println(MinuteofYear);
+		
 		return MinuteofYear;
 	}
 	
@@ -17,6 +19,10 @@ public class TimeChecker {
 		boolean output = false;
 		if (lastlotteryyear == cal.get(Calendar.YEAR) && lastlottery + distance <= this.getMinuteofYear())
 			output = true;
+		
+		//System.out.println("lastlottery: " + lastlottery);
+		//System.out.println("candolottery: " + output);
+		
 		return output;
 	}
 }

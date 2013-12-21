@@ -80,4 +80,8 @@ public class ColorChecker {
 
 		return output;
 	}
+	
+	public ItemStack getColor(String itemname){
+		return (ItemStack) dyes.get(itemname);
+	}
 }
