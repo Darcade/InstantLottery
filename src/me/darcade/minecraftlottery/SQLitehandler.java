@@ -2,9 +2,7 @@ package me.darcade.minecraftlottery;
 
 import java.sql.*;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
-public class SQLitehandler extends JavaPlugin {
+public class SQLitehandler {
 
 	private String databasedir;
 
