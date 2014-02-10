@@ -57,7 +57,8 @@ public class WhitelistHandler {
 				.equalsIgnoreCase("whitelist")) {
 			List<String> whitelistitems = this.getWhitelist().getStringList("whitelist");
 
-			int randomNum = new Random().nextInt(whitelistitems.size()) + 1;
+			int randomNum = new Random().nextInt(whitelistitems.size());
+			System.out.println(randomNum);
 			String item = whitelistitems.get(randomNum);
 			// Check for color
 			if (colorchecker.checkforcolor(item)) {
@@ -66,6 +67,7 @@ public class WhitelistHandler {
 				wonmaterial = Material.valueOf(item);
 				wonitem = new ItemStack(wonmaterial, randomamount);
 			}
+			
 		} else if (minecraftlottery.getConfig().getString("itemlist")
 				.equalsIgnoreCase("blacklist")) {
 			List<String> whitelistitems = YamlConfiguration.loadConfiguration(
@@ -74,6 +76,7 @@ public class WhitelistHandler {
 
 			int whitelistlenght = whitelistitems.size();
 			int randomNum = new Random().nextInt(whitelistlenght);
+			System.out.println(randomNum);
 			wonmaterial = Material.valueOf(whitelistitems.get(randomNum));
 
 			while (new BlacklistHandler(minecraftlottery)
