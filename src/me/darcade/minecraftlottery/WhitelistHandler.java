@@ -58,7 +58,7 @@ public class WhitelistHandler {
 			List<String> whitelistitems = this.getWhitelist().getStringList("whitelist");
 
 			int randomNum = new Random().nextInt(whitelistitems.size());
-			System.out.println(randomNum);
+			//System.out.println(randomNum);
 			String item = whitelistitems.get(randomNum);
 			// Check for color
 			if (colorchecker.checkforcolor(item)) {
@@ -76,7 +76,7 @@ public class WhitelistHandler {
 
 			int whitelistlenght = whitelistitems.size();
 			int randomNum = new Random().nextInt(whitelistlenght);
-			System.out.println(randomNum);
+			//System.out.println(randomNum);
 			wonmaterial = Material.valueOf(whitelistitems.get(randomNum));
 
 			while (new BlacklistHandler(minecraftlottery)
