@@ -1,5 +1,5 @@
 /*
-Notes for what byte is used for which color.
+Notes which hash is used for which color.
 
 Inc Sac: 0 INC_SAC
 Rose Red: 1 ROSE_RED
