@@ -85,7 +85,8 @@ public class MinecraftLottery extends JavaPlugin {
 
 		if (!latestversion.equalsIgnoreCase(localversion) && oldconfig.exists()) {
 			log.warning("[MinecraftLottery] The config is not up to date moving it to 'config_old.yml', and creating a new one.");
-
+			System.out.println("[MinecraftLottery] Please note that you should update your whitelist too.");
+			System.out.println("[MinecraftLottery] Just delete it and let the plugin create a new one.");
 			if (!movedconfig.exists()) {
 				oldconfig.renameTo(movedconfig);
 			} else {
