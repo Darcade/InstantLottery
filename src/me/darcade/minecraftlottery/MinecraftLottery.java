@@ -34,7 +34,7 @@ public class MinecraftLottery extends JavaPlugin {
 		if (this.getConfig().getBoolean("checkforupdate"))
 			this.checkVersion();
 
-		// setup SQLite database and
+		// setup SQLite database and plugin directory
 		String databasedir = "jdbc:sqlite:" + this.getDataFolder().toString()
 				+ "/database.sqlite";
 
@@ -62,8 +62,7 @@ public class MinecraftLottery extends JavaPlugin {
 
 		this.checkDatabaseVersion();
 		this.checkConfigVersion();
-		
-		
+
 		this.createConfig();
 
 		System.out.println("[MinecraftLottery] MinecraftLottery Version: "
@@ -100,13 +99,18 @@ public class MinecraftLottery extends JavaPlugin {
 	private void checkDatabaseVersion() {
 
 		File olddatabase = new File(this.getDataFolder() + "/database.sqlite");
-		File moveddatabase = new File(this.getDataFolder() + "/database_old.sqlite");
+		File moveddatabase = new File(this.getDataFolder()
+				+ "/database_old.sqlite");
 
 		String latestversion = YamlConfiguration.loadConfiguration(
 				this.getResource("config.yml")).getString("database-version");
-		String localversion = this.getConfig().getString("database-version");
+		String localversion = YamlConfiguration.loadConfiguration(
+				new File(this.getDataFolder() + "/config.yml")).getString(
+				"database-version");
 
-		if (!latestversion.equalsIgnoreCase(localversion) && olddatabase.exists() || latestversion.isEmpty() && olddatabase.exists()) {
+		if (!latestversion.equalsIgnoreCase(localversion)
+				&& olddatabase.exists() || latestversion.isEmpty()
+				&& olddatabase.exists()) {
 			log.warning("[MinecraftLottery] The database is not up to date moving it to 'database_old.sqlite', and creating a new one.");
 
 			if (!moveddatabase.exists()) {
@@ -118,7 +122,7 @@ public class MinecraftLottery extends JavaPlugin {
 
 		}
 	}
-	
+
 	private void checkVersion() {
 		UpdateChecker updatechecker = new UpdateChecker(64258);
 
