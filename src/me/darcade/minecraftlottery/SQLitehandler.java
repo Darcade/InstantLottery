@@ -20,7 +20,7 @@ public class SQLitehandler {
 			// System.out.println("[MinecraftLottery] Opened Database successfully");
 
 			stmt = c.createStatement();
-			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, lastlotteryyear NUMERIC ,PRIMARY KEY(username));";
+			String sql = "CREATE TABLE IF NOT EXISTS lotterytable (username TEXT , lastlottery NUMERIC, PRIMARY KEY(username));";
 
 			stmt.executeUpdate(sql);
 			stmt.close();
@@ -63,39 +63,7 @@ public class SQLitehandler {
 		return result;
 	}
 
-	public int getlastlotteryyear(String username) {
-
-		Connection c = null;
-		Statement stmt = null;
-		int result = 0;
-
-		try {
-			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection(databasedir);
-			c.setAutoCommit(false);
-
-			stmt = c.createStatement();
-			String sql = "SELECT lastlotteryyear FROM lotterytable WHERE username=\""
-					+ username + "\" LIMIT 1;";
-
-			ResultSet rs = stmt.executeQuery(sql);
-
-			if (rs.next()) {
-				result = rs.getInt("lastlotteryyear");
-			}
-
-			rs.close();
-			stmt.close();
-			c.close();
-
-		} catch (Exception e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-		}
-		return result;
-	}
-
-	public void setlastlottery(String username, int lastlottery,
-			int lastlotteryyear) {
+	public void setlastlottery(String username, int lastlottery) {
 		Connection c = null;
 		Statement stmt = null;
 
@@ -106,7 +74,6 @@ public class SQLitehandler {
 			stmt = c.createStatement();
 
 			String sql = "UPDATE lotterytable SET lastlottery='" + lastlottery
-					+ "', lastlotteryyear='" + lastlotteryyear
 					+ "' WHERE username='" + username + "';";
 
 			stmt.executeUpdate(sql);
@@ -119,8 +86,7 @@ public class SQLitehandler {
 		}
 	}
 
-	public void setnewlastlottery(String username, int lastlottery,
-			int lastlotteryyear) {
+	public void setnewlastlottery(String username, int lastlottery) {
 		Connection c = null;
 		Statement stmt = null;
 
@@ -131,13 +97,8 @@ public class SQLitehandler {
 			stmt = c.createStatement();
 
 			// TODO prevent SQL Injections
-			String sql = "INSERT INTO lotterytable (username, lastlottery, lastlotteryyear) VALUES('"
-					+ username
-					+ "', "
-					+ lastlottery
-					+ ", "
-					+ lastlotteryyear
-					+ ");";
+			String sql = "INSERT INTO lotterytable (username, lastlottery) VALUES('"
+					+ username + "', " + lastlottery + ");";
 
 			stmt.executeUpdate(sql);
 

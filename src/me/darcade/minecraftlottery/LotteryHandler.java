@@ -1,7 +1,5 @@
 package me.darcade.minecraftlottery;
 
-import java.util.Calendar;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,25 +34,24 @@ public class LotteryHandler {
 		Material itemtopay = Material.valueOf(lottery.getConfig().getString(
 				"itemtopay"));
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
-		int distance = lottery.getConfig().getInt("distance");
+		int distance = lottery.getConfig().getInt("distance")*60;
 		
 		boolean dobroadcast = lottery.getConfig().getBoolean("do-broadcast");
 
-		Calendar ca1 = Calendar.getInstance();
+		
 		
 		// Item to pay
 		ItemStack payitem = new ItemStack(itemtopay, amounttopay);
 
 		String username = p.getDisplayName();
 		int lastlottery = sqlitehandler.getlastlottery(username);
-		int lastlotteryyear = sqlitehandler.getlastlotteryyear(username);
 		
 		if (p.getInventory().firstEmpty() == -1){
 			p.sendMessage(ChatColor.RED + messagereplacer.getmorespace(p, payitem));
 			return 3;
 		}
 		
-		if (timechecker.candolottery(lastlottery, lastlotteryyear, distance) || distance == 0) {
+		if (timechecker.candolottery(lastlottery, distance) || distance == 0) {
 			if (p.getInventory().containsAtLeast(payitem, amounttopay)) {
 
 				p.getInventory().removeItem(payitem);
@@ -62,9 +59,9 @@ public class LotteryHandler {
 				int dboutput = sqlitehandler.getlastlottery(username);
 
 				if (dboutput == 0) {
-					sqlitehandler.setnewlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
+					sqlitehandler.setnewlastlottery(username, timechecker.getTimestamp());
 				} else {
-					sqlitehandler.setlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
+					sqlitehandler.setlastlottery(username, timechecker.getTimestamp());
 				}
 
 
@@ -114,8 +111,6 @@ public class LotteryHandler {
 		int amounttopay = lottery.getConfig().getInt("amounttopay");
 
 		boolean dobroadcast = lottery.getConfig().getBoolean("do-broadcast");
-
-		Calendar ca1 = Calendar.getInstance();
 		
 		// Item to pay
 		ItemStack payitem = new ItemStack(itemtopay, amounttopay);
@@ -125,9 +120,9 @@ public class LotteryHandler {
 		int output = sqlitehandler.getlastlottery(username);
 
 		if (output == 0) {
-			sqlitehandler.setnewlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
+			sqlitehandler.setnewlastlottery(username, timechecker.getTimestamp());
 		} else {
-			sqlitehandler.setlastlottery(username, timechecker.getMinuteofYear(), ca1.get(Calendar.YEAR));
+			sqlitehandler.setlastlottery(username, timechecker.getTimestamp());
 		}
 
 		ItemStack wonitem = whitelisthandler.getRandomItem();

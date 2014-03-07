@@ -2,7 +2,7 @@
 
 #DO NOT TOUCH 
 config-version: 4
-database-version: 1
+database-version: 2
 
 #Set to false if you don't want to let the plugin check for updates.
 checkforupdate: true
